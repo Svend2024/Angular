@@ -1,16 +1,57 @@
-<header>
-  <nav>
-    <ul>
-      <li><a href="/home">KameGame</a></li>
-      <li><a href="/store">Store</a></li>
-      <li><a href="/deck">Deckbuilder</a></li>
-      <li><a href="/about">About</a></li>
-      <li><a href="/login">Login</a></li>
-      <li><a href="/cart">Cart</a></li>
+<nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Yu-Gi-Oh!</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+    aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarText">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/store">Store</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/deck">Deck Builder</a>
+      </li>
     </ul>
-  </nav>
-</header>
-<footer class="footer-container">
-  <p>&copy; 2024 KameGame</p>
-</footer>
+  </div>
+  <div>
+    <button class="btn btn-lg rounded-circle" href="/cart">
+      <i class="fa fa-solid fa fa-shopping-cart icon-hover"></i>
+    </button>
+  </div>
+  <form>
+    <button class="btn btn-lg rounded-circle" data-bs-toggle="modal" data-bs-target="#Login" type="button">
+      <i class="far fa-user icon-hover"></i>
+    </button>
+  </form>
+  <div class="dropdown">
+    <button class="btn btn-lg text-light rounded-circle dropdown-toggle" type="button" id="LoginButton"
+      data-bs-toggle="collapse" data-bs-auto-close="true" aria-expanded="false"><i class="fa fa-user icon-hover"
+        aria-label="Toggle navigation"></i>
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="LoginButton">
+      <li><a class="dropdown-item" routerLink="/profil">Edit Profile</a></li>
+      <li><a class="dropdown-item" routerLink="/home">Log out</a></li>
+    </ul>
+  </div>
+</nav>
+
 <router-outlet></router-outlet>
+<footer class="bottom">
+  <div class="p-3 bg-dark row justify-content-center m-0">
+      <div class="col-5">
+          <div class="row justify-content-md-around">
+              <div class="col"><a href="https://www.facebook.com/"><i class="fa fa-brands fa fa-facebook-f fa-2x icon-hover"></i></a></div>
+              <div class="col"><a href="https://twitter.com/"><i class="fa fa-brands fa fa-twitter fa-2x icon-hover"></i></a></div>
+              <div class="col"><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><i class="fa fa-brands fa fa-youtube fa-2x icon-hover"></i></a></div>
+              <div class="col"><a href="https://github.com/GraViiX/LOR"><i class="fa fa-brands fa fa-github fa-2x icon-hover"></i></a></div>
+              <div class="col"><a href="https://www.linkedin.com/"><i class="fa fa-brands fa fa-linkedin fa-2x icon-hover"></i></a></div>
+              <div class="col"><a href="https://www.instagram.com/"><i class="fa fa-brands fa fa-instagram fa-2x icon-hover"></i></a></div>
+          </div>
+          <div class="row pt-2"><p class="text-center text-white"> ©2024 KameGame, Copyright</p></div>
+      </div>
+  </div>
+</footer>

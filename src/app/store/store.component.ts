@@ -3,7 +3,7 @@ import { YugiohService } from '../services/yugioh.service';
 import { NgFor, NgIf } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {HttpParams} from "@angular/common/http";
-import { Observable } from 'rxjs';
+import { NgZone } from '@angular/core';
 
 @Component({
   selector: 'app-store',
@@ -15,7 +15,7 @@ import { Observable } from 'rxjs';
 })
 
 export class StoreComponent implements OnInit{
-  constructor(private cards: YugiohService) { }
+  constructor(private cards: YugiohService, private zone: NgZone) { }
   public cardData: any;
   public cart: any = [];
   holder: any;
@@ -23,6 +23,8 @@ export class StoreComponent implements OnInit{
   Attribute: string="";
   Race: string="";
   Effect: string="";
+  currentPage = 1;
+  pageSize = 8; //items per page
 
   public Searchform = new FormGroup({
     Search: new FormControl('')
@@ -30,15 +32,15 @@ export class StoreComponent implements OnInit{
   
   ngOnInit(): void {
     this.products();
-    this.Searchbar();
+    //this.Searchbar();
     this.type = '';
     this.Attribute = "";
     this.Race = "";
     this.Effect = "";
-    this.holder = JSON.parse(sessionStorage['cart']);
-    console.log(this.holder[0]);
+    //this.holder = JSON.parse(sessionStorage['cart']);
+    //console.log(this.holder[0]);
 
-    for (let index = 0; index < this.holder.length; index++) {
+    /*for (let index = 0; index < this.holder.length; index++) {
       const element = this.holder[index];
       this.cart.push({
         id: Number(element.id),
@@ -48,7 +50,7 @@ export class StoreComponent implements OnInit{
         amount: Number(element.amount)
       });
     }
-    console.log(this.cart);
+    console.log(this.cart);*/
 
   }
 
@@ -72,19 +74,6 @@ export class StoreComponent implements OnInit{
     console.log(sessionStorage.getItem('cart'));
   }*/
 
-  nextPage() {
-    this.cards.nextOffSet(this.cardData.meta.next_page).subscribe((res) => {
-      this.cardData = res;
-      console.log(this.cardData);
-    });
-  }
-
-  prevPage() {
-    this.cards.nextOffSet(this.cardData.meta.previous_page).subscribe((res) => {
-      this.cardData = res;
-    });
-  }
-
   Searchbar() {
     this.Searchform.get('Search')?.valueChanges.subscribe((input) => {
       if (input==null){input="";}
@@ -97,12 +86,43 @@ export class StoreComponent implements OnInit{
   }
 
   products() {
-    this.cards.getAllCards().subscribe((res) => {
-      this.cardData = res;
+    this.cards.getAllCards(this.currentPage, this.pageSize).subscribe((res) => {
+      this.zone.run(() => {
+        this.cardData = res;
+        console.log('Fetched products:', this.cardData);
+      });
     });
   }
+  
+  nextPage(): void {
+    this.currentPage++;
+    this.products();
+    console.log('Next page:', this.currentPage);
+  }
+  
+  prevPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.products();
+      console.log('Previous page:', this.currentPage);
+    }
+  }
 
-  onChangetype(type: any) {
+  getPages(): number[] {
+    const pageCount = Math.ceil(this.cardData.totalCount / this.pageSize);
+    return Array.from({ length: pageCount }, (_, index) => index + 1);
+  }
+  
+  goToPage(page: number): void {
+    if (page >= 1 && page <= this.getPages().length) {
+      this.currentPage = page;
+      this.products();
+      console.log('Go to page:', this.currentPage);
+    }
+  }
+
+
+  /*onChangetype(type: any) {
     console.log(type.target.value);
     if(type.target.value == 'Select Card Type'){
       this.type = '';
@@ -137,6 +157,6 @@ export class StoreComponent implements OnInit{
     }else{
       this.Effect = Effect.target.value;
     }
-  }
+  }*/
 
 }

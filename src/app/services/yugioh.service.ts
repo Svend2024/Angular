@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -12,17 +13,13 @@ const httpOptions = {
 })
 
 export class YugiohService {
+  private urlAll : string = 'https://localhost:44361/api/Cards'
+  
   constructor(private http:HttpClient) { }
 
-  urlStaple : string = `https://db.ygoprodeck.com/api/v7/cardinfo.php?staple=yes`;
-  urlAll : string = `https://db.ygoprodeck.com/api/v7/cardinfo.php?&num=32&offset=0&view=List&misc=yes`
-
-  getStaple(){
-    return this.http.get(`${this.urlStaple}`, httpOptions);
-  }
-
-  getAllCards(){
-    return this.http.get(`${this.urlAll}`, httpOptions);
+  getAllCards(page: number, pageSize: number): Observable<any> {
+    const url = `${this.urlAll}/paged?page=${page}&pageSize=${pageSize}`;
+    return this.http.get(url);
   }
 
   nextOffSet(nextPage : string){

@@ -1,5 +1,5 @@
 <div class="container">
-    <h1 class="text-center pt-4">Yu-Gi-Oh! Card Store</h1>
+    <h1 class="text-center pt-4">KameGame Card Store</h1>
     <form class="form-inline" [formGroup]="Searchform">
       <div class="input-group">
         <input formControlName="Search" class="form-control" placeholder="Search" aria-label="Search" type="search">
@@ -25,9 +25,9 @@
     </div>
     <div class="col mb-3">
     <div class="pagination">
-      <button (click)="prevPage()">Prev</button>
-      <button *ngFor="let page of getPages()" (click)="goToPage(page)">{{ page }}</button>
-      <button (click)="nextPage()">Next</button>
+      <button class="btn btn-dark" (click)="prevPage()">Prev</button>
+      <button class="btn btn-dark" *ngFor="let page of getPages()" (click)="goToPage(page)">{{ page }}</button>
+      <button class="btn btn-dark" (click)="nextPage()">Next</button>
     </div>
   </div>
 </div>

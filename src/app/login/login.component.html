@@ -10,7 +10,8 @@
         <label for="password" class="form-label">Password:</label>
         <input type="password" id="password" name="password" class="form-control" required [(ngModel)]="loginObj.password">
       </div>
-      <button type="submit" class="btn btn-dark" (click)="onLogin()">Login</button>
     </form>
+    <button type="submit" class="btn btn-dark btn-block mt-2 d-block" (click)="onLogin()">Login</button>
+    <button type="submit" class="btn btn-dark btn-block mt-2 d-block" (click)="onCreateAccount()">Create Account</button>
   </div>
 </div>

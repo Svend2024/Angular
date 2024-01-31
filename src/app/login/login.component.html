@@ -1,17 +1,19 @@
-<div class="container">
-  <div class="card mt-5 p-3 text-center" style="max-width: 400px; margin: auto;">
-    <h2 class="mb-4">Login</h2>
-    <form>
-      <div class="mb-3">
-        <label for="username" class="form-label">Username:</label>
-        <input type="text" id="username" name="username" class="form-control" required [(ngModel)]="loginObj.username">
-      </div>
-      <div class="mb-3">
-        <label for="password" class="form-label">Password:</label>
-        <input type="password" id="password" name="password" class="form-control" required [(ngModel)]="loginObj.password">
-      </div>
-    </form>
-    <button type="submit" class="btn btn-dark btn-block mt-2 d-block" (click)="onLogin()">Login</button>
-    <button type="submit" class="btn btn-dark btn-block mt-2 d-block" (click)="onCreateAccount()">Create Account</button>
+<div class="wrapper">
+  <div class="container">
+    <div class="card mt-5 p-3 text-center" style="max-width: 400px; max-height: 100%; margin: auto;">
+      <h2 class="mb-4">Login</h2>
+      <form>
+        <div class="mb-3">
+          <label for="username" class="form-label">Username:</label>
+          <input type="text" id="username" name="username" class="form-control" required [(ngModel)]="loginObj.username">
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password:</label>
+          <input type="password" id="password" name="password" class="form-control" required [(ngModel)]="loginObj.password">
+        </div>
+      </form>
+      <button type="submit" class="btn btn-dark btn-block mt-2 d-block" (click)="onLogin()">Login</button>
+      <button type="submit" class="btn btn-dark btn-block mt-2 d-block" (click)="onCreateAccount()">Create Account</button>
+    </div>
   </div>
 </div>

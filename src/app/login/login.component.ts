@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { Login } from '../interfaces/login';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -11,9 +11,11 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  login : Login =  {
-    username: '',
-    password: ''
+
+  loginObj: Login
+
+  constructor(private http: HttpClient){
+    this.loginObj = new Login()
   }
 
   public validator = {
@@ -26,7 +28,15 @@ export class LoginComponent {
   }
 
   onLogin() {
-    console.log(this.login.username + " " + this.login.password)
+    this.http.post('https://localhost:44361/api/Customers/Login',this.loginObj).subscribe((res:any)=>{
+      if(res.token != ''){
+        alert("login success")
+        localStorage.setItem('token', res.token);
+      }
+      else{
+        alert("login failed")
+      }
+    })
   }
 
   onCreateAccount(){
@@ -35,3 +45,11 @@ export class LoginComponent {
 
 }
 
+export class Login {
+  username: string;
+  password: string;
+  constructor(){
+    this.username = '';
+    this.password = '';
+  }
+}

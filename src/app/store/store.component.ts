@@ -1,18 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { YugiohService } from '../services/yugioh.service';
 import { NgFor, NgIf } from '@angular/common';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import {HttpParams} from "@angular/common/http";
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-store',
   standalone: true,
-  imports: [NgFor, NgIf],
+  imports: [NgFor, NgIf, ReactiveFormsModule],
   templateUrl: './store.component.html',
   styleUrl: './store.component.css',
   providers: [ YugiohService ]
 })
 
-export class StoreComponent {
+export class StoreComponent implements OnInit{
   constructor(private cards: YugiohService) { }
   public cardData: any;
   public cart: any = [];
@@ -24,7 +26,8 @@ export class StoreComponent {
 
   public Searchform = new FormGroup({
     Search: new FormControl('')
-  })
+  });
+  
   ngOnInit(): void {
     this.products();
     this.Searchbar();
@@ -49,7 +52,7 @@ export class StoreComponent {
 
   }
 
-  AddToCart(item: any) {
+  /*AddToCart(item: any) {
     let recurring = this.cart.find((data: any) => data.id == item.id);
 
     if (recurring != null) {
@@ -67,7 +70,7 @@ export class StoreComponent {
 
     sessionStorage.setItem('cart', JSON.stringify(this.cart));
     console.log(sessionStorage.getItem('cart'));
-  }
+  }*/
 
   nextPage() {
     this.cards.nextOffSet(this.cardData.meta.next_page).subscribe((res) => {
@@ -88,6 +91,7 @@ export class StoreComponent {
       this.cards.searchCard(input, this.type, this.Attribute, this.Race, this.Effect).subscribe((res) => {
         this.cardData = res;
         console.log(this.cardData);
+        const options = input ? {params: new HttpParams().set('name', input)} : {};
       })
     })
   }
@@ -133,12 +137,6 @@ export class StoreComponent {
     }else{
       this.Effect = Effect.target.value;
     }
-  }
-
-  filtercards(){
-    this.cards.filteredCards(this.type, this.Attribute, this.Race, this.Effect).subscribe(res =>{
-      this.cardData = res;
-    });
   }
 
 }

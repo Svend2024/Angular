@@ -1,0 +1,10 @@
+.fa {
+    cursor: pointer;
+    background-color: transparent;
+    color: #ffffff;
+    height: 35px;
+    width: 35px;
+    font-size: 20px;
+    padding: 7px;
+    margin: 1%;
+}

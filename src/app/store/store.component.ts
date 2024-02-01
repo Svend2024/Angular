@@ -74,7 +74,7 @@ export class StoreComponent implements OnInit{
     console.log(sessionStorage.getItem('cart'));
   }*/
 
-  Searchbar() {
+  /*Searchbar() {
     this.Searchform.get('Search')?.valueChanges.subscribe((input) => {
       if (input==null){input="";}
       this.cards.searchCard(input, this.type, this.Attribute, this.Race, this.Effect).subscribe((res) => {
@@ -83,7 +83,7 @@ export class StoreComponent implements OnInit{
         const options = input ? {params: new HttpParams().set('name', input)} : {};
       })
     })
-  }
+  }*/
 
   products() {
     this.cards.getAllCards(this.currentPage, this.pageSize).subscribe((res) => {

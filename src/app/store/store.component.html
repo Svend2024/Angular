@@ -1,33 +1,24 @@
 <div class="container">
-    <h1 class="text-center pt-4">KameGame Card Store</h1>
-    <form class="form-inline" [formGroup]="Searchform">
-      <div class="input-group">
-        <input formControlName="Search" class="form-control" placeholder="Search" aria-label="Search" type="search">
-        <button type="button" class="btn btn-dark btn" data-bs-toggle="modal" data-bs-target="#filtermodal">
-          Filter</button>
-      </div>
-    </form>
-    <div class="row align-items-center">
-      <div *ngFor="let item of cardData.pagedEntities" class="col-sm pb-4 pt-4">
-        <div class="card bg-dark text-white" style="width: 18rem;">
-          <img id="cardImage" class="card-img-top" src="{{item.pictureLink}}" alt="Card image cap">
-          <div class="card-body">
-            <h5 class="card-title text-truncate">{{item.name}}</h5>
-            <p>
-              Stock: {{item.stock}}
-            <br>
-              Price:
-            </p>
-            <!-- <button (click)="AddToCart(item)" class="btn btn-light text-dark">Add to cart</button> --> 
-          </div>
+  <h2>Store</h2>
+  <div class="row">
+    <div *ngFor="let item of cardData.pagedEntities" class="col-md-3">
+      <div class="product-top">
+        <img src="{{item.pictureLink}}">
+        <div class="overlay">
+          <button type="button" class="btn btn-secondary" title="Inspect"><i class="fa fa-eye"></i></button>
+          <button type="button" class="btn btn-secondary" title="Add to cart"><i class="fa fa-shopping-cart"></i></button>
         </div>
       </div>
+      <div class="product-bottom">
+        <h3>{{item.name}}</h3>
+        <h5> DKK</h5>
+      </div>
     </div>
-    <div class="col mb-3">
+  </div>
+  <div class="col mb-3">
     <div class="pagination">
       <button class="btn btn-dark" (click)="prevPage()">Prev</button>
       <button class="btn btn-dark" *ngFor="let page of getPages()" (click)="goToPage(page)">{{ page }}</button>
       <button class="btn btn-dark" (click)="nextPage()">Next</button>
-    </div>
   </div>
 </div>

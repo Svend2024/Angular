@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { YugiohService } from '../services/yugioh.service';
 import { NgFor, NgIf } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import {HttpParams} from "@angular/common/http";
 import { NgZone } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-store',
@@ -15,7 +15,7 @@ import { NgZone } from '@angular/core';
 })
 
 export class StoreComponent implements OnInit{
-  constructor(private cards: YugiohService, private zone: NgZone) { }
+  constructor(private cards: YugiohService, private zone: NgZone, private route: ActivatedRoute, private router: Router,) { }
   public cardData: any;
   public cart: any = [];
   holder: any;
@@ -26,12 +26,16 @@ export class StoreComponent implements OnInit{
   currentPage = 1;
   pageSize = 8; //items per page
 
+
   public Searchform = new FormGroup({
     Search: new FormControl('')
   });
   
   ngOnInit(): void {
-    this.products();
+    this.route.queryParams.subscribe(params => {
+      this.currentPage = params['page'] || 1;
+      this.products();
+    });
     //this.Searchbar();
     this.type = '';
     this.Attribute = "";
@@ -54,6 +58,20 @@ export class StoreComponent implements OnInit{
 
   }
 
+  private navigateToPage(): void {
+    const pageCount = Math.ceil(this.cardData.totalCount / this.pageSize);
+  
+    // Ensure the currentPage does not exceed the calculated pageCount
+    this.currentPage = Math.min(this.currentPage, pageCount);
+  
+    // Use queryParams to append parameters to the URL
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { page: this.currentPage },
+      queryParamsHandling: 'merge',
+    });
+  }
+
   /*AddToCart(item: any) {
     let recurring = this.cart.find((data: any) => data.id == item.id);
 
@@ -74,17 +92,6 @@ export class StoreComponent implements OnInit{
     console.log(sessionStorage.getItem('cart'));
   }*/
 
-  /*Searchbar() {
-    this.Searchform.get('Search')?.valueChanges.subscribe((input) => {
-      if (input==null){input="";}
-      this.cards.searchCard(input, this.type, this.Attribute, this.Race, this.Effect).subscribe((res) => {
-        this.cardData = res;
-        console.log(this.cardData);
-        const options = input ? {params: new HttpParams().set('name', input)} : {};
-      })
-    })
-  }*/
-
   products() {
     this.cards.getAllCards(this.currentPage, this.pageSize).subscribe((res) => {
       this.zone.run(() => {
@@ -96,14 +103,14 @@ export class StoreComponent implements OnInit{
   
   nextPage(): void {
     this.currentPage++;
-    this.products();
+    this.navigateToPage();
     console.log('Next page:', this.currentPage);
   }
   
   prevPage(): void {
     if (this.currentPage > 1) {
       this.currentPage--;
-      this.products();
+      this.navigateToPage();
       console.log('Previous page:', this.currentPage);
     }
   }
@@ -114,49 +121,13 @@ export class StoreComponent implements OnInit{
   }
   
   goToPage(page: number): void {
-    if (page >= 1 && page <= this.getPages().length) {
+    const pageCount = Math.ceil(this.cardData.totalCount / this.pageSize);
+  
+    if (page >= 1 && page <= pageCount) {
       this.currentPage = page;
-      this.products();
+      this.navigateToPage();
       console.log('Go to page:', this.currentPage);
     }
   }
-
-
-  /*onChangetype(type: any) {
-    console.log(type.target.value);
-    if(type.target.value == 'Select Card Type'){
-      this.type = '';
-    }else{
-      this.type = type.target.value;
-    }
-  }
-
-  onChangeAttribute(Attribute: any) {
-    console.log(Attribute.target.value);
-    if(Attribute.target.value == 'Select Attribute'){
-      this.Attribute = '';
-      console.log(this.Attribute);
-    }else{
-      this.Attribute = Attribute.target.value;
-    }
-  }
-
-  onChangeRace(Race: any) {
-    console.log(Race.target.value);
-    if(Race.target.value == 'Select Race'){
-      this.Race == '';
-    }else{
-      this.Race = Race.target.value;
-    }
-  }
-
-  onChangeEffect(Effect:any){
-    console.log(Effect.target.value);
-    if(Effect.target.value == 'Select Card Effect'){
-      this.Effect = '';
-    }else{
-      this.Effect = Effect.target.value;
-    }
-  }*/
 
 }

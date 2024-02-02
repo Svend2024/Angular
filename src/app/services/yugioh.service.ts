@@ -22,16 +22,6 @@ export class YugiohService {
     return this.http.get(url);
   }
 
-  nextOffSet(nextPage : string){
-    this.urlAll = nextPage;
-    return this.http.get(`${this.urlAll}`, httpOptions);
-  }
-
-  prevOffSet(prevPage : string){
-    this.urlAll = prevPage;
-    return this.http.get(`${this.urlAll}`, httpOptions);
-  }
-
   searchCard(cardSearch : string, type: any, Attribute: any, Race: any, Effect:any){
     let cardName = cardSearch;
     let emptyType : string = "";
@@ -67,6 +57,27 @@ export class YugiohService {
       emptyEffect="";
     }
     let filterUrl : string = `https://db.ygoprodeck.com/api/v7/cardinfo.php?&fname=${cardName}${emptyType}${emptyAttribute}${emptyRace}${emptyEffect}&num=32&offset=0&view=List&misc=yes`
+    return this.http.get(`${filterUrl}`, httpOptions);
+  }
+
+  filteredCards(type: any, Attribute: any, Race: any, Effect:any){
+    let emptyType : string = "";
+    let emptyAttribute : string = "";
+    let emptyRace : string = "";
+    let emptyEffect : string = "";
+    if(type != ""){
+      emptyType = `&type=${type}`;
+    }
+    if(Attribute != ""){
+      emptyAttribute = `&attribute=${Attribute}`;
+    }
+    if(Race != ""){
+      emptyRace = `&race=${Race}`;
+    }
+    if(Effect != ""){
+      emptyEffect = `&effect=${Effect}`;
+    }
+    let filterUrl : string = `https://db.ygoprodeck.com/api/v7/cardinfo.php?${emptyType}${emptyAttribute}${emptyRace}${emptyEffect}`
     return this.http.get(`${filterUrl}`, httpOptions);
   }
 

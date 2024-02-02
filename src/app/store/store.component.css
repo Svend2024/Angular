@@ -87,4 +87,13 @@
     border: none !important;
     box-shadow: none !important;
 }
+
+.form-control {
+    width: 150px; /* Adjust the width as needed */
+  }
   
+  /* Move the search input to the right */
+.input-group {
+    margin-left: auto;
+    margin-right: 0;
+}

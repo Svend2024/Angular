@@ -6,6 +6,7 @@ import { DeckComponent } from './deck/deck.component';
 import { CartComponent } from './cart/cart.component';
 import { AboutComponent } from './about/about.component';
 import { LoginComponent } from './login/login.component';
+import { CreateAccountComponent } from './create-account/create-account.component';
 
 export const routes: Routes = [
     { path: 'home', component: HomeComponent },
@@ -14,6 +15,7 @@ export const routes: Routes = [
     { path: 'cart', component: CartComponent },
     { path: 'about', component: AboutComponent },
     { path: 'login', component: LoginComponent },
+    { path: 'create-account', component: CreateAccountComponent },
 ];
 
 export const appConfig: ApplicationConfig = {

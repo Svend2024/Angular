@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,7 @@ export class LoginComponent {
 
   loginObj: Login
 
-  constructor(private http: HttpClient){
+  constructor(private http: HttpClient, private router: Router){
     this.loginObj = new Login()
   }
 
@@ -40,7 +41,7 @@ export class LoginComponent {
   }
 
   onCreateAccount(){
-    return
+    this.router.navigate(['./create-account']);
   }
 
 }

@@ -1,0 +1,132 @@
+<form [formGroup]="verifyForm" action="" (ngSubmit)="onCreateCustomer()" class="container border h-100">
+    <h2 class="m-3">Index title</h2>
+    <div class="p-3">
+        <div class="pb-2 form-group">
+            Fulde Navn
+            <input type="text" class="form-control form-control-sm"
+                [ngClass]="{'is-invalid': submitted && f['fullname'].errors }" formControlName="fullname">
+            @if (submitted && f['fullname'].errors) {
+            <div class="invalid-feedback">
+                @if (f['fullname'].errors['required']) {
+                <div>udfyld Fulde navn</div>
+                }
+            </div>
+            }
+        </div>
+        <div class="py-2 form-group">
+            Postnummer
+            <input type="number" class="form-control form-control-sm"
+                [ngClass]="{ 'is-invalid': submitted && f['zipCode'].errors}" formControlName="zipCode">
+            @if(submitted && f['zipCode'].errors) {
+            <div class="invalid-feedback">
+                @if(f['zipCode'].errors['required']) {
+                <div>Udfyld Postnummer</div>
+                }
+                @if(f['zipCode'].errors['requiredValue']) {
+                <div>Postnummer skal være 4 langt</div>
+                }
+            </div>
+            }
+        </div>
+        <div class="pb-2 form-group">
+            Adresse
+            <input type="text" class="form-control form-control-sm"
+                [ngClass]="{'is-invalid': submitted && f['address'].errors }" formControlName="address">
+            @if (submitted && f['address'].errors) {
+            <div class="invalid-feedback">
+                @if (f['address'].errors['required']) {
+                <div>Udfyld Adresse</div>
+                }
+            </div>
+            }
+        </div>
+        <div class="pb-2 form-group">
+            E-mail
+            <input type="text" class="form-control form-control-sm"
+                [ngClass]="{'is-invalid': submitted && f['email'].errors }" formControlName="email">
+            @if (submitted && f['email'].errors) {
+            <div class="invalid-feedback">
+                @if (f['email'].errors['required']) {
+                <div>Udfyld E-mail</div>
+                }
+                @if (f['email'].errors['email']) {
+                <div>E-mail skal have gyldigt format</div>
+                }
+            </div>
+            }
+        </div>
+        <div class="pb-2 form-group">
+            Bekræft E-mail
+            <input type="text" class="form-control form-control-sm"
+                [ngClass]="{'is-invalid': submitted && f['verifyEmail'].errors }" formControlName="verifyEmail">
+            @if (submitted && f['verifyEmail'].errors) {
+            <div class="invalid-feedback">
+                @if (f['verifyEmail'].errors['required']) {
+                <div>Udfyld E-mail bekræftelse</div>
+                }
+                @if (f['verifyEmail'].errors['email']) {
+                <div>E-mail bekræftelse skal have gyldigt format</div>
+                }
+            </div>
+            }
+        </div>
+        <div class="border-top py-2">
+            <h3>Login oplysninger</h3>
+            <div class="pb-2 form-group">
+                Brugernavn
+                <input type="text" class="form-control form-control-sm"
+                    [ngClass]="{'is-invalid': submitted && f['username'].errors }" formControlName="username">
+                @if (submitted && f['username'].errors) {
+                <div class="invalid-feedback">
+                    @if (f['username'].errors['required']) {
+                    <div>Udfyld Brugernavn</div>
+                    }
+                    @if (f['username'].errors['minlength']) {
+                    <div>Brugernavn skal minimum være 6 tegn langt</div>
+                    }
+                    @if (f['username'].errors['maxlength']) {
+                        <div>Brugernavn kan maks være 32 tegn langt</div>
+                        }
+                </div>
+                }
+            </div>
+            <div class="pb-2 form-group">
+                Adgangskode
+                <input type="password" class="form-control form-control-sm"
+                    [ngClass]="{'is-invalid': submitted && f['password'].errors }" formControlName="password">
+                @if (submitted && f['password'].errors) {
+                <div class="invalid-feedback">
+                    @if (f['password'].errors['required']) {
+                    <div>Udfyld Adgangskode</div>
+                    }
+                    @if (f['password'].errors['minlength']) {
+                    <div>Adgangskode skal minimum være 6 tegn langt</div>
+                    }
+                    @if (f['password'].errors['maxlength']) {
+                        <div>Adgangskode kan maks være 32 tegn langt</div>
+                        }
+                </div>
+                }
+            </div>
+            <div class="pb-2 form-group">
+                Bekræft Adgangskode
+                <input type="password" class="form-control form-control-sm"
+                    [ngClass]="{'is-invalid': submitted && f['verifyPassword'].errors }" formControlName="verifyPassword">
+                @if (submitted && f['verifyPassword'].errors) {
+                <div class="invalid-feedback">
+                    @if (f['verifyPassword'].errors['required']) {
+                    <div>Udfyld Adgangskode</div>
+                    }
+                    @if (f['verifyPassword'].errors['minlength']) {
+                    <div>Adgangskode skal minimum være 6 tegn langt</div>
+                    }
+                    @if (f['verifyPassword'].errors['maxlength']) {
+                        <div>Adgangskode kan maks være 32 tegn langt</div>
+                        }
+                </div>
+                }
+            </div>
+        </div>
+        <button type="submit" class="btn btn-dark">Opret Profil</button>
+    </div>
+</form>

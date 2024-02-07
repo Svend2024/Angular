@@ -1,1 +1,32 @@
-<p>deck works!</p>
+<div class="container">
+    <div class="col-md-10">
+        <div class="row">
+
+            <h2>Deckbuilder</h2>
+
+        </div>
+    </div>
+    <div class="col bg-light text-dark justify-content-md-center">
+        <div class="row">
+            <div *ngFor="let item of cardData.pagedEntities" class="col-md-3">
+              <div class="product-top">
+                <img src="{{item.pictureLink}}">
+                <div class="overlay">
+                  <button type="button" class="btn btn-secondary" title="Inspect"><i class="fa fa-eye"></i></button>
+                  <button type="button" class="btn btn-secondary" title="Add to cart"><i class="fa fa-shopping-cart"></i></button>
+                </div>
+              </div>
+              <div class="product-bottom">
+                <h3>{{item.name}}</h3>
+                <h5> DKK</h5>
+              </div>
+            </div>
+          </div>
+          <div class="col mb-3">
+            <div class="pagination">
+              <button class="btn btn-dark" (click)="prevPage()">Prev</button>
+              <button class="btn btn-dark" *ngFor="let page of getPages()" (click)="goToPage(page)">{{ page }}</button>
+              <button class="btn btn-dark" (click)="nextPage()">Next</button>
+          </div>
+    </div>
+</div>

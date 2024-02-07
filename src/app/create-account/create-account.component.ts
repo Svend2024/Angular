@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Observable, of } from 'rxjs';
 import { Console, debug } from 'console';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-account',
@@ -16,7 +17,7 @@ import { Console, debug } from 'console';
 })
 export class CreateAccountComponent implements OnInit {
 
-  constructor(private http: HttpClient, private formBuilder: FormBuilder) { }
+  constructor(private http: HttpClient, private formBuilder: FormBuilder, private router: Router) { }
 
   verifyForm: FormGroup = new FormGroup({
     fullname: new FormControl(''),
@@ -113,6 +114,7 @@ export class CreateAccountComponent implements OnInit {
 
       this.http.post('https://localhost:44361/api/Customers', this.customer).subscribe((res: any) => {
         if (res.id != null) {
+          this.router.navigate(['./login']);
           alert("Customer successfully created!")
         }
         else {

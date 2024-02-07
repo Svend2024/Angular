@@ -40,7 +40,6 @@ export class StoreComponent implements OnInit{
     this.type = '';
     this.Attribute = "";
     this.Race = "";
-    this.Effect = "";
     //this.holder = JSON.parse(sessionStorage['cart']);
     //console.log(this.holder[0]);
 
@@ -72,6 +71,33 @@ export class StoreComponent implements OnInit{
     });
   }
 
+  onChangetype(type: any) {
+    console.log(type.target.value);
+    if(type.target.value == 'Select Card Type'){
+      this.type = '';
+    }else{
+      this.type = type.target.value;
+    }
+  }
+
+  onChangeAttribute(Attribute: any) {
+    console.log(Attribute.target.value);
+    if(Attribute.target.value == 'Select Attribute'){
+      this.Attribute = '';
+      console.log(this.Attribute);
+    }else{
+      this.Attribute = Attribute.target.value;
+    }
+  }
+
+  onChangeRace(Race: any) {
+    console.log(Race.target.value);
+    if(Race.target.value == 'Select Race'){
+      this.Race == '';
+    }else{
+      this.Race = Race.target.value;
+    }
+  }
   /*AddToCart(item: any) {
     let recurring = this.cart.find((data: any) => data.id == item.id);
 
@@ -95,7 +121,7 @@ export class StoreComponent implements OnInit{
   products() {
     this.cards.getAllCards(this.currentPage, this.pageSize).subscribe((res) => {
       this.zone.run(() => {
-        this.cardData = res;
+        this.cardData = res.pagedEntities;
         console.log('Fetched products:', this.cardData);
       });
     });
@@ -128,6 +154,16 @@ export class StoreComponent implements OnInit{
       this.navigateToPage();
       console.log('Go to page:', this.currentPage);
     }
+  }
+
+  filtercards(){
+    this.cards.filteredCards(this.type, this.Attribute, this.Race, this.currentPage, this.pageSize).subscribe(res =>{
+      this.zone.run(() => {
+        this.cardData = res;
+        this.cardData = this.cardData.pagedFilteredEntities
+        console.log('Fetched products:', this.cardData);
+      });
+    });
   }
 
 }

@@ -1,12 +1,19 @@
 <div class="container h-100">
   <h2>Store</h2>
-  <div class="row justify-content-end">
-    <div class="col-md-3"> <!-- Adjust the column width as needed -->
-      <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#filtermodal">
-        Filter
-      </button>
+  <form class="form-inline" [formGroup]="Searchform">
+    <div class="row justify-content-between align-items-center mb-3">
+      <div class="col-auto">
+        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#filtermodal">
+          Filter
+        </button>
+      </div>
+      <div class="col-auto">
+        <div class="input-group">
+          <input formControlName="Search" class="form-control" placeholder="Search" aria-label="Search" type="search" placeholder="Search">
+        </div>
+      </div>
     </div>
-  </div>
+  </form>
   <div class="row">
     <div *ngFor="let item of cardData" class="col-md-3">
       <div class="product-top">
@@ -23,10 +30,18 @@
     </div>
   </div>
 </div>
-<div class="pagination">
+<div class="row justify-content-center mt-4">
+  <div class="pagination col-md-8 p-3">
     <button class="btn btn-dark" (click)="prevPage()">Prev</button>
-    <button class="btn btn-dark" *ngFor="let page of getPages()" (click)="goToPage(page)">{{ page }}</button>
+    <ng-container *ngFor="let page of getPages()">
+      <button class="btn btn-dark" 
+              [class.btn-primary]="page === currentPage" 
+              (click)="goToPage(page)">
+        {{ page }}
+      </button>
+    </ng-container>
     <button class="btn btn-dark" (click)="nextPage()">Next</button>
+  </div>
 </div>
 
 <!--#region filter popup-->
@@ -157,7 +172,7 @@
                 <br>
                 Race: {{item.race}}
                 <br>
-                Set: {{item.set.setName}} ({{item.cardCode}})
+                Set: ({{item.cardCode}})
                 <br>
                 Stock: {{item.stock}}
               </div>

@@ -18,11 +18,11 @@ export class YugiohService {
   constructor(private http:HttpClient) { }
 
   getAllCards(page: number, pageSize: number): Observable<any> {
-    const url = `${this.urlAll}/paged?page=${page}&pageSize=${pageSize}`;
+    const url = `${this.urlAll}/FilterSearch?page=${page}&pageSize=${pageSize}`;
     return this.http.get(url);
   }
 
-  searchCard(cardSearch : string, type: any, Attribute: any, Race: any){
+  searchCard(cardSearch : any, type: any, Attribute: any, Race: any, page: number, pageSize: number){
     let cardName = cardSearch;
     let emptyType : string = "";
     let emptyAttribute : string = "";
@@ -49,7 +49,7 @@ export class YugiohService {
     {
       emptyRace="";
     }
-    let filterUrl : string = `https://db.ygoprodeck.com/api/v7/cardinfo.php?&fname=${cardName}${emptyType}${emptyAttribute}${emptyRace}${emptyEffect}&num=32&offset=0&view=List&misc=yes`
+    let filterUrl : string = `${this.urlAll}/FilterSearch?searchTerm=${cardName}${emptyType}${emptyAttribute}${emptyRace}${emptyEffect}&page=${page}&pageSize=${pageSize}`
     return this.http.get(`${filterUrl}`, httpOptions);
   }
 
@@ -78,7 +78,7 @@ export class YugiohService {
     {
       emptyRace="";
     }
-    let filterUrl : string = `https://localhost:44361/api/Cards/filtered?${emptyType}${emptyAttribute}${emptyRace}&page=${page}&pageSize=${pageSize}`
+    let filterUrl : string = `https://localhost:44361/api/Cards/FilterSearch?${emptyType}${emptyAttribute}${emptyRace}&page=${page}&pageSize=${pageSize}`
     return this.http.get(`${filterUrl}`, httpOptions);
   }
 

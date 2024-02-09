@@ -25,18 +25,20 @@ export class StoreComponent implements OnInit{
   Effect: string="";
   currentPage = 1;
   pageSize = 8; //items per page
-
-
+  
   public Searchform = new FormGroup({
     Search: new FormControl('')
-  });
-  
+  })
+
+
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
+      console.log('Query Params:', params);
       this.currentPage = params['page'] || 1;
+      console.log('Current Page:', this.currentPage);
       this.products();
+      this.search();
     });
-    //this.Searchbar();
     this.type = '';
     this.Attribute = "";
     this.Race = "";
@@ -58,7 +60,7 @@ export class StoreComponent implements OnInit{
   }
 
   private navigateToPage(): void {
-    const pageCount = Math.ceil(this.cardData.totalCount / this.pageSize);
+    const pageCount = Math.ceil(this.cardData.length / this.pageSize);
   
     // Ensure the currentPage does not exceed the calculated pageCount
     this.currentPage = Math.min(this.currentPage, pageCount);
@@ -121,13 +123,14 @@ export class StoreComponent implements OnInit{
   products() {
     this.cards.getAllCards(this.currentPage, this.pageSize).subscribe((res) => {
       this.zone.run(() => {
-        this.cardData = res.pagedEntities;
+        this.cardData = res.searchedEnities;
         console.log('Fetched products:', this.cardData);
       });
     });
   }
   
   nextPage(): void {
+    console.log('Next page clicked');
     this.currentPage++;
     this.navigateToPage();
     console.log('Next page:', this.currentPage);
@@ -135,6 +138,7 @@ export class StoreComponent implements OnInit{
   
   prevPage(): void {
     if (this.currentPage > 1) {
+      console.log('Previous page clicked');
       this.currentPage--;
       this.navigateToPage();
       console.log('Previous page:', this.currentPage);
@@ -142,17 +146,17 @@ export class StoreComponent implements OnInit{
   }
 
   getPages(): number[] {
-    const pageCount = Math.ceil(this.cardData.totalCount / this.pageSize);
+    const pageCount = Math.ceil(this.cardData.length / this.pageSize);
     return Array.from({ length: pageCount }, (_, index) => index + 1);
   }
   
   goToPage(page: number): void {
+    console.log('Go to page:', page);
     const pageCount = Math.ceil(this.cardData.totalCount / this.pageSize);
-  
     if (page >= 1 && page <= pageCount) {
       this.currentPage = page;
+      console.log('New Page:', this.currentPage);
       this.navigateToPage();
-      console.log('Go to page:', this.currentPage);
     }
   }
 
@@ -160,10 +164,20 @@ export class StoreComponent implements OnInit{
     this.cards.filteredCards(this.type, this.Attribute, this.Race, this.currentPage, this.pageSize).subscribe(res =>{
       this.zone.run(() => {
         this.cardData = res;
-        this.cardData = this.cardData.pagedFilteredEntities
+        this.cardData = this.cardData.searchedEnities
         console.log('Fetched products:', this.cardData);
       });
     });
+  }
+
+  search(){
+    this.Searchform.get('Search')?.valueChanges.subscribe((input) => {
+      this.cards.searchCard(input, this.type, this.Attribute, this.Race, this.currentPage, this.pageSize).subscribe((res) => {
+        this.cardData = res;
+        this.cardData = this.cardData.searchedEnities
+        console.log(this.cardData);
+      })
+    })
   }
 
 }

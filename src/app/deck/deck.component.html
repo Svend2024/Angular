@@ -1,38 +1,57 @@
 <div class="container">
   <h2>Deckbuilder</h2>
-  <div class="row justify-content-end">
-    <div class="col-md-3">
-      <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#filtermodal">
-        Filter
-      </button>
-    </div>
-  </div>
-</div>
-<div class="row Deckbuilder">
-  <div class="col-md-10 bg-light text-dark">
-    <div class="d-flex flex-wrap bd-highlight mb-3">
-      <div *ngFor="let item of cardData" class="col">
-        <div class="product-top" (contextmenu)="openInspectModal($event, item)" (mousedown)="addToDeck($event, item)">
-          <img src="{{item.pictureLink}}">
-          <div class="overlay">
-            <button type="button" class="btn btn-secondary" title="Inspect" style="display: none;"
-              data-bs-toggle="modal" data-bs-target="#deckinspectmodal"></button>
-          </div>
+  <form class="form-inline" [formGroup]="Searchform">
+    <div class="row justify-content-between align-items-center mb-3">
+      <div class="col-auto">
+        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#filtermodal">
+          Filter
+        </button>
+      </div>
+      <div class="col-auto">
+        <div class="input-group">
+          <input formControlName="Search" class="form-control" placeholder="Search" aria-label="Search" type="search"
+            placeholder="Search">
         </div>
       </div>
     </div>
+  </form>
+</div>
+<div class="row">
+  <div class="col-md-10 bg-light text-dark">
+    <div class="row border border-black">
+      <div *ngFor="let item of cardData.searchedEnities"
+        class="col-md-3 col-sm-6 product d-flex justify-content-center align-items-center py-2">
+        <img src="{{item.pictureLink}}" (contextmenu)="openInspectModal($event, item)"
+          (mousedown)="addToDeck($event, item)">        
+          <button id="Inspect" style="display: none;" data-bs-toggle="modal"
+            data-bs-target="#deckinspectmodal"></button>        
+      </div>
+    </div>
   </div>
-  <div class="col-md-2 bg-dark text-white">
-    This will be the drop zone
+  <div class="col-md-2 bg-dark text-white border border-2 border-black">
+    <div *ngFor="let card of deck">
+      <div class="row border border-black" [style.background-color]="getBackgroundColor(card)" (contextmenu)="openInspectModal($event, card)"
+      (mousedown)="removeFromDeck($event, card)">
+        <p class="col-md-10 bordered-text">{{ card.item.name }}</p>
+        <!-- <p class="col-md-10 bordered-text">{{ card.item.name + " (" + card.item.cardCode + ")"}}</p> -->
+        <p class="col-md-2 bordered-text">{{ card.amount }}x</p>
+        <button id="InspectDeck" style="display: none;" data-bs-toggle="modal"
+            data-bs-target="#deckinspectmodal"></button>
+      </div>
+    </div>
   </div>
-  <div class="pagination py-3">
+</div>
+<div class="row justify-content-center mt-4">
+  <div class="pagination col-md-8 p-3">
     <button class="btn btn-dark" (click)="prevPage()">Prev</button>
-    <button class="btn btn-dark" *ngFor="let page of getPages()" (click)="goToPage(page)">{{ page }}</button>
+    <ng-container *ngFor="let page of getPages()">
+      <button class="btn btn-dark" [class.btn-primary]="page === currentPage" (click)="goToPage(page)">
+        {{ page }}
+      </button>
+    </ng-container>
     <button class="btn btn-dark" (click)="nextPage()">Next</button>
   </div>
 </div>
-
-
 
 <!--#region filter modal-->
 <div class="modal fade" id="filtermodal" tabindex="-1" aria-labelledby="errormodal" aria-hidden="true">

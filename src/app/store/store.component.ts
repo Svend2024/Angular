@@ -11,20 +11,22 @@ import { ActivatedRoute, Router } from '@angular/router';
   imports: [NgFor, NgIf, ReactiveFormsModule],
   templateUrl: './store.component.html',
   styleUrl: './store.component.css',
-  providers: [ YugiohService ]
+  providers: [YugiohService]
 })
 
-export class StoreComponent implements OnInit{
+export class StoreComponent implements OnInit {
   constructor(private cards: YugiohService, private zone: NgZone, private route: ActivatedRoute, private router: Router,) { }
   public cardData: any;
   public cart: any = [];
   holder: any;
-  type: string="";
-  Attribute: string="";
-  Race: string="";
+  type: string = "";
+  Attribute: string = "";
+  Race: string = "";
   currentPage = 1;
   pageSize = 8; //items per page
-  
+
+  inspectCard: any = [];
+
   public Searchform = new FormGroup({
     Search: new FormControl('')
   })
@@ -59,11 +61,11 @@ export class StoreComponent implements OnInit{
   }
 
   private navigateToPage(): void {
-    const pageCount = Math.ceil(this.cardData.length / this.pageSize);
-  
+    const pageCount = Math.ceil(this.cardData.totalCount / this.pageSize);
+
     // Ensure the currentPage does not exceed the calculated pageCount
     this.currentPage = Math.min(this.currentPage, pageCount);
-  
+
     // Use queryParams to append parameters to the URL
     this.router.navigate([], {
       relativeTo: this.route,
@@ -72,30 +74,34 @@ export class StoreComponent implements OnInit{
     });
   }
 
+  openInspectModal(item: any) {
+    this.inspectCard = item;
+  }
+
   onChangetype(type: any) {
     console.log(type.target.value);
-    if(type.target.value == 'Select Card Type'){
+    if (type.target.value == 'Select Card Type') {
       this.type = '';
-    }else{
+    } else {
       this.type = type.target.value;
     }
   }
 
   onChangeAttribute(Attribute: any) {
     console.log(Attribute.target.value);
-    if(Attribute.target.value == 'Select Attribute'){
+    if (Attribute.target.value == 'Select Attribute') {
       this.Attribute = '';
       console.log(this.Attribute);
-    }else{
+    } else {
       this.Attribute = Attribute.target.value;
     }
   }
 
   onChangeRace(Race: any) {
     console.log(Race.target.value);
-    if(Race.target.value == 'Select Race'){
+    if (Race.target.value == 'Select Race') {
       this.Race = '';
-    }else{
+    } else {
       this.Race = Race.target.value;
     }
   }
@@ -121,20 +127,20 @@ export class StoreComponent implements OnInit{
 
   products() {
     this.cards.getAllCards(this.currentPage, this.pageSize).subscribe((res) => {
-      this.zone.run(() => {
-        this.cardData = res.searchedEnities;
+      this.zone.run(() => {        
+        this.cardData = res;
         console.log('Fetched products:', this.cardData);
       });
     });
   }
-  
+
   nextPage(): void {
     console.log('Next page clicked');
     this.currentPage++;
     this.navigateToPage();
     console.log('Next page:', this.currentPage);
   }
-  
+
   prevPage(): void {
     if (this.currentPage > 1) {
       console.log('Previous page clicked');
@@ -145,10 +151,10 @@ export class StoreComponent implements OnInit{
   }
 
   getPages(): number[] {
-    const pageCount = Math.ceil(this.cardData.length / this.pageSize);
+    const pageCount = Math.ceil(this.cardData.totalCount / this.pageSize);
     return Array.from({ length: pageCount }, (_, index) => index + 1);
   }
-  
+
   goToPage(page: number): void {
     console.log('Go to page:', page);
     const pageCount = Math.ceil(this.cardData.totalCount / this.pageSize);
@@ -159,21 +165,19 @@ export class StoreComponent implements OnInit{
     }
   }
 
-  filtercards(){
-    this.cards.filteredCards(this.type, this.Attribute, this.Race, this.currentPage, this.pageSize).subscribe(res =>{
+  filtercards() {
+    this.cards.filteredCards(this.type, this.Attribute, this.Race, this.currentPage, this.pageSize).subscribe(res => {
       this.zone.run(() => {
         this.cardData = res;
-        this.cardData = this.cardData.searchedEnities
         console.log('Fetched products:', this.cardData);
       });
     });
   }
 
-  search(){
+  search() {
     this.Searchform.get('Search')?.valueChanges.subscribe((input) => {
       this.cards.searchCard(input, this.type, this.Attribute, this.Race, this.currentPage, this.pageSize).subscribe((res) => {
         this.cardData = res;
-        this.cardData = this.cardData.searchedEnities
         console.log(this.cardData);
       })
     })

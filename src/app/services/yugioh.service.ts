@@ -57,28 +57,29 @@ export class YugiohService {
     let emptyType : string = "";
     let emptyAttribute : string = "";
     let emptyRace : string = "";
-    if(type != "" && type !="Select Card Type"){
+    if(type != "" && type != "Select Card Type"){
       emptyType = `&type=${type}`;
     }
     if(type == "Select Card Type")
     {
       emptyType="";
     }
-    if(Attribute != "" && Attribute !="Select Attributee"){
+    if(Attribute != "" && Attribute != "Select Attributee"){
       emptyAttribute = `&attribute=${Attribute}`;
     }
     if(Attribute == "Select Attributee")
     {
       emptyAttribute="";
     }
-    if(Race != "" && Race !="Select Race"){
+    if(Race != "" && Race != "Select Race"){
       emptyRace = `&race=${Race}`;
     }
     if(Race == "Select Race")
     {
       emptyRace="";
     }
-    let filterUrl : string = `https://localhost:44361/api/Cards/FilterSearch?${emptyType}${emptyAttribute}${emptyRace}&page=${page}&pageSize=${pageSize}`
+    let filterUrl : string = `${this.urlAll}/FilterSearch?searchTerm=${emptyType}${emptyAttribute}${emptyRace}&page=${page}&pageSize=${pageSize}`
+    console.log(filterUrl)
     return this.http.get(`${filterUrl}`, httpOptions);
   }
 

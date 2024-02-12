@@ -22,7 +22,6 @@ export class StoreComponent implements OnInit{
   type: string="";
   Attribute: string="";
   Race: string="";
-  Effect: string="";
   currentPage = 1;
   pageSize = 8; //items per page
   
@@ -39,7 +38,7 @@ export class StoreComponent implements OnInit{
       this.products();
       this.search();
     });
-    this.type = '';
+    this.type = "";
     this.Attribute = "";
     this.Race = "";
     //this.holder = JSON.parse(sessionStorage['cart']);
@@ -95,7 +94,7 @@ export class StoreComponent implements OnInit{
   onChangeRace(Race: any) {
     console.log(Race.target.value);
     if(Race.target.value == 'Select Race'){
-      this.Race == '';
+      this.Race = '';
     }else{
       this.Race = Race.target.value;
     }

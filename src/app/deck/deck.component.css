@@ -61,4 +61,6 @@
     font-size: 18px;
     font-weight: bold;
     -webkit-text-stroke: 1px darkslategray;
+    user-select: none;
+    cursor: default;
   }

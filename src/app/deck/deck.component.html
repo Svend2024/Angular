@@ -30,7 +30,7 @@
   </div>
   <div class="col-md-2 bg-dark text-white border border-2 border-black">
     <div *ngFor="let card of deck">
-      <div class="row border border-black" [style.background-color]="getBackgroundColor(card)" (contextmenu)="openInspectModal($event, card)"
+      <div class="row border border-black" [style.background-color]="getBackgroundColor(card)" (contextmenu)="openInspectModalDeck($event, card)"
       (mousedown)="removeFromDeck($event, card)">
         <p class="col-md-10 bordered-text">{{ card.item.name }}</p>
         <!-- <p class="col-md-10 bordered-text">{{ card.item.name + " (" + card.item.cardCode + ")"}}</p> -->

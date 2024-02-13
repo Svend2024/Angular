@@ -169,29 +169,29 @@ export class DeckComponent implements OnInit {
   }
 
   getBackgroundColor(card: any): string {
-    switch(card.item.type) {
-      case 'Effect Monster': 
-      case 'Flip Effect Monster': 
-      case 'Gemini Monster': 
-      case 'Pendulum Flip Effect Monster': 
+    switch (card.item.type) {
+      case 'Effect Monster':
+      case 'Flip Effect Monster':
+      case 'Gemini Monster':
+      case 'Pendulum Flip Effect Monster':
       case 'Pendulum Effect Monster':
-      case 'Pendulum Tuner Effect Monster': 
-      case 'Spirit Monster': 
+      case 'Pendulum Tuner Effect Monster':
+      case 'Spirit Monster':
       case 'Toon Monster':
-      case 'Tuner Monster': 
+      case 'Tuner Monster':
       case 'Union Effect Monster':
         return '#d9964d'
-      case 'Fusion Monster': 
+      case 'Fusion Monster':
       case 'Pendulum Effect Fusion Monster':
         return '#843497'
       case 'Link Monster':
         return '#175188'
-      case 'Normal Monster': 
-      case 'Normal Tuner Monster': 
+      case 'Normal Monster':
+      case 'Normal Tuner Monster':
       case 'Pendulum Normal Monster':
         return '#caa560'
-      case 'Ritual Monster': 
-      case 'Pendulum Effect Ritual Monster': 
+      case 'Ritual Monster':
+      case 'Pendulum Effect Ritual Monster':
       case 'Ritual Effect Monster':
         return '#5d81bd'
       case 'Skill Card':
@@ -200,15 +200,15 @@ export class DeckComponent implements OnInit {
         return '#298e80'
       case 'Staple':
         return '#8c94af'
-      case 'Synchro Monster': 
-      case 'Synchro Pendulum Effect Monster': 
+      case 'Synchro Monster':
+      case 'Synchro Pendulum Effect Monster':
       case 'Synchro Tuner Monster':
         return '#e8e6e1'
       case 'Token':
         return '#8e8987'
       case 'Trap Card':
         return '#923672'
-      case 'XYZ Monster': 
+      case 'XYZ Monster':
       case 'XYZ Pendulum Effect Monster':
         return '#24272d'
       default:
@@ -218,14 +218,14 @@ export class DeckComponent implements OnInit {
 
   removeFromDeck(event: MouseEvent, item: any): void {
     if (event.button === 0) {
-      const index = this.deck.findIndex(deckItem => deckItem.item === item);
+      const index = this.deck.findIndex(deckItem => deckItem.item === item.item);
       if (index !== -1) {
-        if (this.deck[index].amount < 3) {
-          this.deck[index].amount++;
+        if (this.deck[index].amount > 0) {
+          this.deck[index].amount--;
+          if (this.deck[index].amount === 0) {
+            this.deck.splice(index, 1);
+          }
         }
-      }
-      else {
-        this.deck.push({ item, amount: 1 });
       }
     }
   }
@@ -235,7 +235,7 @@ export class DeckComponent implements OnInit {
     if (event.button === 2) {
       const buttonElement = this.elementRef.nativeElement.querySelector('#InspectDeck');
       if (buttonElement && !this.isDispatched) {
-        this.inspectCard = item.pictureLink;
+        this.inspectCard = item.item.pictureLink;
         this.isDispatched = true;
         buttonElement.click();
         this.isDispatched = false;

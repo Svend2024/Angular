@@ -39,25 +39,25 @@ export class StoreComponent implements OnInit {
       console.log('Current Page:', this.currentPage);
       this.products();
       this.search();
+      this.cart = JSON.parse(sessionStorage['cart']);
+      console.log(this.cart);
     });
     this.type = "";
     this.Attribute = "";
     this.Race = "";
-    //this.holder = JSON.parse(sessionStorage['cart']);
-    //console.log(this.holder[0]);
 
-    /*for (let index = 0; index < this.holder.length; index++) {
-      const element = this.holder[index];
-      this.cart.push({
-        id: Number(element.id),
-        name: String(element.name),
-        smallImg: String(element.smallImg),
-        cardPrice: String(element.cardPrice),
-        amount: Number(element.amount)
-      });
-    }
-    console.log(this.cart);*/
+    // this.holder = JSON.parse(sessionStorage['cart']);
 
+    // for (let index = 0; index < this.holder.length; index++) {
+    //   const element = this.holder[index];
+    //   this.cart.push({
+    //     id: Number(element.id),
+    //     name: String(element.name),
+    //     smallImg: String(element.smallImg),
+    //     cardPrice: String(element.cardPrice),
+    //     amount: Number(element.amount)
+    //   });
+    // }
   }
 
   private navigateToPage(): void {
@@ -105,29 +105,23 @@ export class StoreComponent implements OnInit {
       this.Race = Race.target.value;
     }
   }
-  /*AddToCart(item: any) {
-    let recurring = this.cart.find((data: any) => data.id == item.id);
+
+  addToCart(item: any) {
+    this.cart = JSON.parse(sessionStorage.getItem('cart') || '[]');
+    let recurring = this.cart.find((data: any) => data.item.id == item.id);
 
     if (recurring != null) {
-      this.cart[this.cart.indexOf(recurring)].amount += 1;
+      recurring.amount++;
     }
     else {
-      this.cart.push({
-        id: item.id,
-        name: item.name,
-        smallImg: item.card_images[0].image_url_small,
-        cardPrice: item.card_prices[0].tcgplayer_price,
-        amount: 1
-      });
+      this.cart.push({ item, amount: 1 });
     }
-
     sessionStorage.setItem('cart', JSON.stringify(this.cart));
-    console.log(sessionStorage.getItem('cart'));
-  }*/
+  }
 
   products() {
     this.cards.getAllCards(this.currentPage, this.pageSize).subscribe((res) => {
-      this.zone.run(() => {        
+      this.zone.run(() => {
         this.cardData = res;
         console.log('Fetched products:', this.cardData);
       });

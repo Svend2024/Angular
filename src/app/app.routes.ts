@@ -16,6 +16,7 @@ export const routes: Routes = [
     { path: 'about', component: AboutComponent },
     { path: 'login', component: LoginComponent },
     { path: 'create-account', component: CreateAccountComponent },
+    { path: '**', redirectTo: 'home' }
 ];
 
 export const appConfig: ApplicationConfig = {

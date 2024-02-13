@@ -49,6 +49,10 @@ export class YugiohService {
     {
       emptyRace="";
     }
+    if(page == 0)
+    {
+      page = 1
+    }
     let filterUrl : string = `${this.urlAll}/FilterSearch?searchTerm=${cardName}${emptyType}${emptyAttribute}${emptyRace}${emptyEffect}&page=${page}&pageSize=${pageSize}`
     return this.http.get(`${filterUrl}`, httpOptions);
   }

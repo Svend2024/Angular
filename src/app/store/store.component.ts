@@ -41,13 +41,13 @@ export class StoreComponent implements OnInit {
       this.type = params['type'] || ''; // Set type from URL
       this.Attribute = params['attribute'] || ''; // Set Attribute from URL
       this.Race = params['race'] || ''; // Set Race from URL
-      this.products();
       this.search();
+      console.log(this.currentPage);
       this.cart = JSON.parse(sessionStorage['cart']);
       console.log(this.cart);
-      this.filtercards(); // Apply filters based on URL parameters
+       // Apply filters based on URL parameters
     });
-    
+    this.filtercards();
     this.type = "";
     this.Attribute = "";
     this.Race = "";
@@ -131,15 +131,6 @@ export class StoreComponent implements OnInit {
     sessionStorage.setItem('cart', JSON.stringify(this.cart));
   }
 
-  products() {
-    this.cards.getAllCards(this.currentPage, this.pageSize).subscribe((res) => {
-      this.zone.run(() => {
-        this.cardData = res;
-        console.log('Fetched products:', this.cardData);
-      });
-    });
-  }
-
   nextPage(): void {
     console.log('Next page clicked');
     this.currentPage++;
@@ -177,6 +168,11 @@ export class StoreComponent implements OnInit {
       this.zone.run(() => {
         this.cardData = res;
         console.log('Fetched products:', this.cardData);
+        console.log(this.currentPage);
+        if (this.cardData.totalCount == 0) {
+          this.currentPage = 1;
+          console.log(this.currentPage);
+        }
         this.navigateToPage();
       });
     });
@@ -185,10 +181,14 @@ export class StoreComponent implements OnInit {
   search() {
     this.Searchform.get('Search')?.valueChanges.subscribe((input) => {
       this.cards.searchCard(input, this.type, this.Attribute, this.Race, this.currentPage, this.pageSize).subscribe((res) => {
+        if (this.cardData.totalCount === 0) {
+          this.currentPage = 1;
+          console.log(this.currentPage);
+        }
         this.cardData = res;
         console.log(this.cardData);
         this.navigateToPage();
-      })
+      });
     })
   }
 }

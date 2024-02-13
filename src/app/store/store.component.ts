@@ -37,9 +37,15 @@ export class StoreComponent implements OnInit {
       console.log('Query Params:', params);
       this.currentPage = params['page'] || 1;
       console.log('Current Page:', this.currentPage);
+      this.Searchform.get('Search')?.setValue(params['search'] || ''); // Set search term from URL
+      this.type = params['type'] || ''; // Set type from URL
+      this.Attribute = params['attribute'] || ''; // Set Attribute from URL
+      this.Race = params['race'] || ''; // Set Race from URL
       this.products();
       this.search();
+      this.filtercards(); // Apply filters based on URL parameters
     });
+    
     this.type = "";
     this.Attribute = "";
     this.Race = "";
@@ -69,7 +75,13 @@ export class StoreComponent implements OnInit {
     // Use queryParams to append parameters to the URL
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { page: this.currentPage },
+      queryParams: { 
+        page: this.currentPage, 
+        search: this.Searchform.get('Search')?.value,
+        type: this.type,
+        attribute: this.Attribute,
+        race: this.Race
+      },
       queryParamsHandling: 'merge',
     });
   }
@@ -142,6 +154,7 @@ export class StoreComponent implements OnInit {
   }
 
   prevPage(): void {
+    console.log(this.currentPage)
     if (this.currentPage > 1) {
       console.log('Previous page clicked');
       this.currentPage--;
@@ -170,6 +183,7 @@ export class StoreComponent implements OnInit {
       this.zone.run(() => {
         this.cardData = res;
         console.log('Fetched products:', this.cardData);
+        this.navigateToPage();
       });
     });
   }
@@ -179,8 +193,8 @@ export class StoreComponent implements OnInit {
       this.cards.searchCard(input, this.type, this.Attribute, this.Race, this.currentPage, this.pageSize).subscribe((res) => {
         this.cardData = res;
         console.log(this.cardData);
+        this.navigateToPage();
       })
     })
   }
-
 }

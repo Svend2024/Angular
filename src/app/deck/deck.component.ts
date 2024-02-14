@@ -114,24 +114,19 @@ export class DeckComponent implements OnInit {
     this.cards.getAllCards(this.currentPage, this.pageSize).subscribe((res) => {
       this.zone.run(() => {
         this.cardData = res;
-        console.log('Fetched products:', this.cardData);
       });
     });
   }
 
   nextPage(): void {
-    console.log('Next page clicked');
     this.currentPage++;
     this.navigateToPage();
-    console.log('Next page:', this.currentPage);
   }
 
   prevPage(): void {
     if (this.currentPage > 1) {
-      console.log('Previous page clicked');
       this.currentPage--;
       this.navigateToPage();
-      console.log('Previous page:', this.currentPage);
     }
   }
 
@@ -141,11 +136,9 @@ export class DeckComponent implements OnInit {
   }
 
   goToPage(page: number): void {
-    console.log('Go to page:', page);
     const pageCount = Math.ceil(this.cardData.totalCount / this.pageSize);
     if (page >= 1 && page <= pageCount) {
       this.currentPage = page;
-      console.log('New Page:', this.currentPage);
       this.navigateToPage();
     }
   }
@@ -154,7 +147,6 @@ export class DeckComponent implements OnInit {
     this.cards.filteredCards(this.type, this.Attribute, this.Race, this.currentPage, this.pageSize).subscribe(res => {
       this.zone.run(() => {
         this.cardData = res;
-        console.log('Fetched products:', this.cardData);
       });
     });
   }
@@ -163,7 +155,6 @@ export class DeckComponent implements OnInit {
     this.Searchform.get('Search')?.valueChanges.subscribe((input) => {
       this.cards.searchCard(input, this.type, this.Attribute, this.Race, this.currentPage, this.pageSize).subscribe((res) => {
         this.cardData = res;
-        console.log(this.cardData);
       })
     })
   }

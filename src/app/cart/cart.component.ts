@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { TransactionHistory } from '../Interface/transaction-history';
+import { NgFor, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [],
+  imports: [NgFor, NgIf],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css'
 })
@@ -15,6 +16,7 @@ export class CartComponent implements OnInit {
 
   ngOnInit(): void {
     this.cart = JSON.parse(sessionStorage['cart']);    
+    console.log(this.cart)
   }
 
   RemoveAmount(item: any) {
@@ -78,7 +80,7 @@ export class CartComponent implements OnInit {
   TotalPrice(){
     let price: number = 0;
     this.cart.forEach(element => {
-      price += element.cardPrice/1 * element.amount;
+      price += element.item.price/1 * element.amount;
     });
 
     return (price).toFixed(2);

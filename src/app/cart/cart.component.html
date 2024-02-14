@@ -3,12 +3,12 @@
       <div class="col-md-10">
         <div class="row">
           <div class="col">
-            <h2>Your Cart</h2>
+            <h2>Din kurv</h2>
           </div>
         </div>
         <div *ngIf="this.cart.length === 0">
           <div class="row border-top">
-            <h4>Your cart is empty.</h4>
+            <h4>Din kurv er tom.</h4>
           </div>
         </div>
   
@@ -16,27 +16,27 @@
           <div class="row border-top">
             <div class="row align-items-left">
               <div class="col-2"></div>
-              <div class="col-2">Item Name</div>
-              <div class="col-2">Item Amount</div>
-              <div class="col-2">Item price</div>
+              <div class="col-2">Produkt</div>
+              <div class="col-2">Mængde</div>
+              <div class="col-2">pris</div>
             </div>
           </div>
           <div *ngFor="let item of this.cart" class="row border-top border-bottom">
             <div class="row align-items-center">
               <div class="col-2">
-                <img class="img-fluid" src="{{item.smallImg}}" />
+                <img class="img-fluid" src="{{item.item.pictureLink}}" />
               </div>
               <div class="col-2">
-                <div class="row">{{item.name}}</div>
+                <div class="row">{{item.item.name}}</div>
               </div>
               <div class="col-2">
                 <button class="btn" (click)="RemoveAmount(item)">-</button>
                 <a class="border bg-light text-dark" style="text-decoration: none; padding: .5rem;">{{item.amount}}</a>
                 <button class="btn" (click)="AddAmount(item)">+</button>
               </div>
-              <div class="col-2">{{(item.cardPrice * item.amount).toFixed(2)}} $</div>
+              <div class="col-2">{{(item.item.price * item.amount).toFixed(2)}} Kr.</div>
               <div class="col-2 align-items-right">
-                <button class="btn" (click)="RemoveItem(item)">Remove &#10005;</button>
+                <button class="btn" (click)="RemoveItem(item)">Fjern &#10005;</button>
               </div>
             </div>
           </div>
@@ -44,8 +44,8 @@
       </div>
       <div class="col bg-light text-dark justify-content-md-center">
         <h5>Checkout</h5>
-        <p class="row border-top">Amount of items: {{TotalAmount()}}</p>
-        <p class="row border-top">Total price: {{TotalPrice()}} $</p>
+        <p class="row border-top">Antal produkter i kurv: {{TotalAmount()}}</p>
+        <p class="row border-top">Total pris: {{TotalPrice()}} Kr.</p>
         <button class="btn btn-dark text-white" (click)="Purchase()">
           Purchase
         </button>

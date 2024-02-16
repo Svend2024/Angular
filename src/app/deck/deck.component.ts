@@ -38,6 +38,7 @@ export class DeckComponent implements OnInit {
       this.currentPage = params['page'] || 1;
       this.products();
       this.search();
+      this.cart = JSON.parse(sessionStorage['cart']);
     });
     this.type = '';
     this.Attribute = "";
@@ -46,7 +47,7 @@ export class DeckComponent implements OnInit {
 
   addToDeck(event: MouseEvent, item: any): void {
     if (event.button === 0) {
-      const index = this.deck.findIndex(deckItem => deckItem.item === item);
+      const index = this.deck.findIndex(deckItem => deckItem.item.id === item.id);
       if (index !== -1) {
         if (this.deck[index].amount < 3) {
           this.deck[index].amount++;
@@ -233,5 +234,21 @@ export class DeckComponent implements OnInit {
       }
     }
     return false;
+  }
+
+  addToCartFromDeck(): void {
+    this.cart = JSON.parse(sessionStorage.getItem('cart') || '[]');
+    console.log(this.cart)
+    console.log(this.deck)
+    this.deck.forEach(deckItem => {      
+      const index = this.cart.findIndex((data: any) => data.item.id === deckItem.item.id);
+      console.log(index)
+      if (index !== -1) {
+        this.cart[index].amount += deckItem.amount;
+      } else {
+        this.cart.push({ item: deckItem.item, amount: deckItem.amount });
+      }
+    });
+    sessionStorage.setItem('cart', JSON.stringify(this.cart));
   }
 }

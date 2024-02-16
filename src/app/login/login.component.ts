@@ -29,7 +29,7 @@ export class LoginComponent {
   }
 
   onLogin() {
-    this.http.post('https://localhost:44361/api/Customers/Login',this.loginObj).subscribe((res:any)=>{
+    this.http.post('https://localhost:44361/api/Logins/Login',this.loginObj).subscribe((res:any)=>{
       if(res.token != ''){
         alert("login success")
         localStorage.setItem('token', res.token);

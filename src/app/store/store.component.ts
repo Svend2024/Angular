@@ -4,6 +4,7 @@ import { NgFor, NgIf } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { NgZone } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-store',
@@ -179,7 +180,10 @@ export class StoreComponent implements OnInit {
   }
 
   search() {
-    this.Searchform.get('Search')?.valueChanges.subscribe((input) => {
+    this.Searchform.get('Search')?.valueChanges.pipe(
+      debounceTime(200), // hvor lang tid der skal gå før at søgningen skal ske.
+      distinctUntilChanged() // ignorer hvis værdi er uændret.
+    ).subscribe((input) => {
       this.cards.searchCard(input, this.type, this.Attribute, this.Race, this.currentPage, this.pageSize).subscribe((res) => {
         if (this.cardData.totalCount === 0) {
           this.currentPage = 1;

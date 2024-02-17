@@ -3,6 +3,7 @@ import { YugiohService } from '../services/yugioh.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { NgFor, NgIf } from '@angular/common';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-deck',
@@ -13,8 +14,11 @@ import { NgFor, NgIf } from '@angular/common';
   providers: [YugiohService]
 })
 export class DeckComponent implements OnInit {
+  _login: LoginService;
   constructor(private cards: YugiohService, private zone: NgZone, private route: ActivatedRoute,
-    private router: Router, private elementRef: ElementRef) { }
+    private router: Router, private elementRef: ElementRef, private login: LoginService) { 
+      this._login = login;
+    }
 
   deck: any[] = [];
 
@@ -34,6 +38,7 @@ export class DeckComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this._login.IsLogged.subscribe()
     this.route.queryParams.subscribe(params => {
       this.currentPage = params['page'] || 1;
       this.products();

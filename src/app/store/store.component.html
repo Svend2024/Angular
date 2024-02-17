@@ -1,5 +1,5 @@
-<div class="container h-100">
-  <h2>Store</h2>
+<div class="container">
+  <h2>Butik</h2>
   <form class="form-inline" [formGroup]="Searchform">
     <div class="row justify-content-between align-items-center mb-3">
       <div class="col-auto">
@@ -9,7 +9,8 @@
       </div>
       <div class="col-auto">
         <div class="input-group">
-          <input formControlName="Search" class="form-control" placeholder="Search" aria-label="Search" type="search" placeholder="Search">
+          <input formControlName="Search" class="form-control" placeholder="Search" aria-label="Search" type="search"
+            placeholder="Search">
         </div>
       </div>
     </div>
@@ -19,8 +20,10 @@
       <div class="product-top">
         <img src="{{item.pictureLink}}">
         <div class="overlay">
-          <button type="button" class="btn btn-secondary" title="Inspect" data-bs-toggle="modal" data-bs-target="#inspectmodal" (click)="openInspectModal(item)"><i class="fa fa-eye"></i></button>
-          <button type="button" class="btn btn-secondary" title="Add to cart" (click)="addToCart(item)"><i class="fa fa-shopping-cart"></i></button>
+          <button type="button" class="btn btn-secondary" title="Inspect" data-bs-toggle="modal"
+            data-bs-target="#inspectmodal" (click)="openInspectModal(item)"><i class="fa fa-eye"></i></button>
+          <button type="button" class="btn btn-secondary" title="Add to cart" (click)="addToCart(item)"><i
+              class="fa fa-shopping-cart"></i></button>
         </div>
       </div>
       <div class="product-bottom">
@@ -29,20 +32,19 @@
       </div>
     </div>
   </div>
-</div>
-<div class="row justify-content-center mt-4">
-  <div class="pagination col-md-8 p-3">
-    <button class="btn btn-dark" (click)="prevPage()">Prev</button>
-    <ng-container *ngFor="let page of getPages()">
-      <button class="btn btn-dark" 
-              [class.btn-primary]="page === currentPage" 
-              (click)="goToPage(page)">
-        {{ page }}
-      </button>
-    </ng-container>
-    <button class="btn btn-dark" (click)="nextPage()">Next</button>
+  <div class="row">
+    <div class="pagination col-md-8 p-3">
+      <button class="btn btn-dark" (click)="prevPage()">Prev</button>
+      <ng-container *ngFor="let page of getPages()">
+        <button class="btn btn-dark" [class.btn-primary]="page === currentPage" (click)="goToPage(page)">
+          {{ page }}
+        </button>
+      </ng-container>
+      <button class="btn btn-dark" (click)="nextPage()">Next</button>
+    </div>
   </div>
 </div>
+
 
 <!--#region filter popup-->
 <div class="modal fade" id="filtermodal" tabindex="-1" aria-labelledby="errormodal" aria-hidden="true">
@@ -154,41 +156,41 @@
     <div class="modal-content">
       <div class="modal-body">
         <h3>{{inspectCard.name}}</h3>
-          <div class="row justify-content">
-            <div class="col-md">
-              <div class="product-top">
-                <img src="{{inspectCard.pictureLink}}">
-              </div>
-              <div class="product-modal">
-                <h3>{{inspectCard.name}}</h3>
-                <h5>{{inspectCard.price}} DKK</h5>
-              </div>
+        <div class="row justify-content">
+          <div class="col-md">
+            <div class="product-top">
+              <img src="{{inspectCard.pictureLink}}">
             </div>
-            <div class="col-md justify-content-end">
-              <div>
-                <b>Card Type:</b> {{inspectCard.type}}
-                <br>
-                <b>Attribute:</b> {{inspectCard.attribute}}
-                <br>
-                <b>Race:</b> {{inspectCard.race}}
-                <br>
-                <b>Set:</b> ({{inspectCard.cardCode}})
-                <br>
-                <b>Stock:</b> {{inspectCard.stock}}
-              </div>
+            <div class="product-modal">
+              <h3>{{inspectCard.name}}</h3>
+              <h5>{{inspectCard.price}} DKK</h5>
             </div>
-            <div class="justify-content-end">
-              <button type="button" class="btn btn-dark" data-bs-dismiss="modal">
-                Add to Cart
-              </button>
-              <button type="button" class="btn btn-dark" data-bs-dismiss="modal">
-                Close
-              </button>
+          </div>
+          <div class="col-md justify-content-end">
+            <div>
+              <b>Card Type:</b> {{inspectCard.type}}
+              <br>
+              <b>Attribute:</b> {{inspectCard.attribute}}
+              <br>
+              <b>Race:</b> {{inspectCard.race}}
+              <br>
+              <b>Set:</b> ({{inspectCard.cardCode}})
+              <br>
+              <b>Stock:</b> {{inspectCard.stock}}
             </div>
+          </div>
+          <div class="justify-content-end">
+            <button type="button" class="btn btn-dark" data-bs-dismiss="modal">
+              Add to Cart
+            </button>
+            <button type="button" class="btn btn-dark" data-bs-dismiss="modal">
+              Close
+            </button>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 
 <!--#endregion-->

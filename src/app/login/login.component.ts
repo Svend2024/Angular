@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router'
+import { AuthService } from '../services/auth.service';
+import { LoginService } from '../services/login.service';
 
 @Component({
   selector: 'app-login',
@@ -11,12 +13,15 @@ import { Router } from '@angular/router'
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
   loginObj: Login
 
-  constructor(private http: HttpClient, private router: Router){
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService, private login: LoginService){
     this.loginObj = new Login()
+  }
+  ngOnInit(): void {
+    this.login.IsLogged.subscribe()
   }
 
   public validator = {
@@ -29,15 +34,22 @@ export class LoginComponent {
   }
 
   onLogin() {
-    this.http.post('https://localhost:44361/api/Logins/Login',this.loginObj).subscribe((res:any)=>{
-      if(res.token != ''){
-        alert("login success")
-        localStorage.setItem('token', res.token);
-      }
-      else{
-        alert("login failed")
-      }
+    this.authService.login(this.loginObj)
+    this.authService.OnLoginSuccessful.subscribe(next => {
+      this.login.ProfileBehavior.next(true);
+      this.router.navigate(['./store'])
     })
+    
+
+    // this.http.post('https://localhost:44361/api/Logins/Login',this.loginObj).subscribe((res:any)=>{
+    //   if(res.token != ''){
+    //     alert("login success")
+    //     localStorage.setItem('token', res.token);
+    //   }
+    //   else{
+    //     alert("login failed")
+    //   }
+    // })
   }
 
   onCreateAccount(){

@@ -6,19 +6,31 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">        
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" href="/store">Produkter</a>
+          <a class="nav-link" href="/store">Butik</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/deck">Dæksbygger</a>
         </li>
+      </ul>
+      <ul class="navbar-nav mb-2 mb-lg-0 d-flex align-items-center">
         <li class="nav-item">
-          <a class="nav-link" href="/cart">Kurv</a>
+          <a class="nav-link" href="/cart"><i class="fa fa-shopping-cart icon-hover"></i></a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/login">Login</a>
+        <li class="nav-item" *ngIf="isLoggedReady && !(this._login.IsLogged  | async)">
+          <a class="nav-link" href="/login"><i class="fa fa-sign-in"></i></a>
         </li>
+        <div class="dropdown" *ngIf="(this._login.IsLogged  | async)== true">
+          <div class="text-light dropdown-toggle" type="button" (click)="toggleDropdown()">
+            <i class="fa fa-user icon-hover"></i>
+          </div>
+          <ul class="dropdown-menu bg-dark" [class.show]="this.isDropdownOpen" style="right: 0; left: auto;">
+          <li><a class="dropdown-item bg-dark text-light" href="/profil">Rediger Profil</a></li>
+            <li><a class="dropdown-item bg-dark text-light" href="">Transaktions Historik</a></li>
+            <li><a class="dropdown-item bg-dark text-light" href="" (click)="logOut()">Log ud</a></li>
+          </ul>
+        </div>
       </ul>
     </div>
   </div>

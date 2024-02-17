@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { YugiohService } from '../services/yugioh.service';
 import { NgFor, NgIf } from '@angular/common';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgZone } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
@@ -9,7 +9,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
 @Component({
   selector: 'app-store',
   standalone: true,
-  imports: [NgFor, NgIf, ReactiveFormsModule],
+  imports: [NgFor, NgIf, ReactiveFormsModule, FormsModule],
   templateUrl: './store.component.html',
   styleUrl: './store.component.css',
   providers: [YugiohService]
@@ -23,14 +23,28 @@ export class StoreComponent implements OnInit {
   type: string = "";
   Attribute: string = "";
   Race: string = "";
+  Price: number = 0
+  Stock: number = 0
+  Set: string = ""
   currentPage = 1;
   pageSize = 8; //items per page
-  @ViewChild('inspectButton') inspectButton!: ElementRef;
   inspectCard: any = [];
+  isProductManager: boolean = true;
 
   public Searchform = new FormGroup({
     Search: new FormControl('')
   })
+
+  EditForm: FormGroup = new FormGroup({
+    cardName: new FormControl(''),
+    cardPicturelink: new FormControl(''),
+    cardAttribute: new FormControl(''),
+    cardType: new FormControl(''),
+    cardRace: new FormControl(''),
+    cardSet: new FormControl(''),
+    cardStock: new FormControl(''),
+    cardPrice: new FormControl(''),
+  });
 
 
   ngOnInit(): void {
@@ -52,19 +66,9 @@ export class StoreComponent implements OnInit {
     this.type = "";
     this.Attribute = "";
     this.Race = "";
-
-    // this.holder = JSON.parse(sessionStorage['cart']);
-
-    // for (let index = 0; index < this.holder.length; index++) {
-    //   const element = this.holder[index];
-    //   this.cart.push({
-    //     id: Number(element.id),
-    //     name: String(element.name),
-    //     smallImg: String(element.smallImg),
-    //     cardPrice: String(element.cardPrice),
-    //     amount: Number(element.amount)
-    //   });
-    // }
+    if(sessionStorage.getItem('role') === "ProductManager"){
+      this.isProductManager = true;
+    }
   }
 
   private navigateToPage(): void {
@@ -88,12 +92,6 @@ export class StoreComponent implements OnInit {
   }
 
   openInspectModal(item: any) {
-    if(sessionStorage.getItem('role') === "ProductManager")
-    {
-      const newTarget = '#pmModal';
-      this.inspectButton.nativeElement.setAttribute('data-bs-target', newTarget);
-      this.inspectButton.nativeElement.click();
-    }
     this.inspectCard = item;
   }
 
@@ -200,5 +198,10 @@ export class StoreComponent implements OnInit {
         this.navigateToPage();
       });
     })
+  }
+
+  deleteCard(){
+    this.Price = this.EditForm.get('cardPrice')!.value;
+    console.log(this.Price + "DKK");
   }
 }

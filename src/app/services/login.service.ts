@@ -12,10 +12,6 @@ export class LoginService {
 
   constructor(private http: HttpClient) { }
 
-  // setLoggedReadyStatus(status: boolean): void {
-  //   this.ProfileBehavior.next(status)
-  // }
-
   login(login: any) {
     return this.http.post('https://localhost:44361/api/Logins/Login', login)    
   }

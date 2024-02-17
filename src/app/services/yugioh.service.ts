@@ -4,7 +4,8 @@ import { Observable } from 'rxjs';
 
 const httpOptions = {
   headers: new HttpHeaders({
-    'Content-Type' : 'application/json'
+    'Content-Type' : 'application/json',
+    'Authorization': 'Bearer' 
   })
 }
 
@@ -54,7 +55,7 @@ export class YugiohService {
       page = 1
     }
     let filterUrl : string = `${this.urlAll}/FilterSearch?searchTerm=${cardName}${emptyType}${emptyAttribute}${emptyRace}${emptyEffect}&page=${page}&pageSize=${pageSize}`
-    return this.http.get(`${filterUrl}`, httpOptions);
+    return this.http.get(`${filterUrl}`);
   }
 
   filteredCards(type: any, Attribute: any, Race: any, page: number, pageSize: number){
@@ -84,7 +85,15 @@ export class YugiohService {
     }
     let filterUrl : string = `${this.urlAll}/FilterSearch?searchTerm=${emptyType}${emptyAttribute}${emptyRace}&page=${page}&pageSize=${pageSize}`
     console.log(filterUrl)
-    return this.http.get(`${filterUrl}`, httpOptions);
+    return this.http.get(`${filterUrl}`);
+  }
+
+  addCard(){
+
+  }
+
+  updateCard(){
+
   }
 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { YugiohService } from '../services/yugioh.service';
 import { NgFor, NgIf } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -25,7 +25,7 @@ export class StoreComponent implements OnInit {
   Race: string = "";
   currentPage = 1;
   pageSize = 8; //items per page
-
+  @ViewChild('inspectButton') inspectButton!: ElementRef;
   inspectCard: any = [];
 
   public Searchform = new FormGroup({
@@ -88,6 +88,12 @@ export class StoreComponent implements OnInit {
   }
 
   openInspectModal(item: any) {
+    if(sessionStorage.getItem('role') === "ProductManager")
+    {
+      const newTarget = '#pmModal';
+      this.inspectButton.nativeElement.setAttribute('data-bs-target', newTarget);
+      this.inspectButton.nativeElement.click();
+    }
     this.inspectCard = item;
   }
 

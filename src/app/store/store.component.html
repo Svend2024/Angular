@@ -203,41 +203,43 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div class="mb-2">
-          <label for="editName" class="form-label">Card Name</label>
-          <input type="text" class="form-control w-50" id="editName" [value]="inspectCard.name">
-        </div>
-        <div class="mb-2">
-          <label for="editPictureLink" class="form-label">Picture Link</label>
-          <input type="text" class="form-control w-50" id="editPictureLink" [value]="inspectCard.pictureLink">
-        </div>
-        <div class="mb-2">
-          <label for="editType" class="form-label">Card Type</label>
-          <input type="text" class="form-control w-50" id="editType" [value]="inspectCard.type">
-        </div>
-        <div class="mb-2">
-          <label for="editAttribute" class="form-label">Attribute</label>
-          <input type="text" class="form-control w-50" id="editAttribute" [value]="inspectCard.attribute">
-        </div>
-        <div class="mb-2">
-          <label for="editRace" class="form-label">Race</label>
-          <input type="text" class="form-control w-50" id="editRace" [value]="inspectCard.race">
-        </div>
-        <div class="mb-2">
-          <label for="editSet" class="form-label">Set</label>
-          <input type="text" class="form-control w-50" id="editSet" [value]="inspectCard.cardCode">
-        </div>
-        <div class="mb-2">
-          <label for="editStock" class="form-label">Stock</label>
-          <input type="number" class="form-control w-50" id="editStock" [value]="inspectCard.stock">
-        </div>
-        <div class="mb-2">
-          <label for="editPrice" class="form-label">Price (DKK)</label>
-          <input type="number" class="form-control w-50" id="editPrice" [value]="inspectCard.price">
-        </div>
-        <!-- Add more fields as needed -->
-        <button type="button" class="btn btn-dark">Save Changes</button>
-        <button type="button" class="btn btn-dark">Delete Card</button>
+        <form [formGroup]="EditForm">
+          <div class="mb-2">
+            <label for="editName" class="form-label">Card Name</label>
+            <input type="text" class="form-control w-50" id="editName" [value]="inspectCard.name" formControlName="cardName">
+          </div>
+          <div class="mb-2">
+            <label for="editPictureLink" class="form-label">Picture Link</label>
+            <input type="text" class="form-control w-50" id="editPictureLink" [value]="inspectCard.pictureLink" formControlName="cardPicturelink">
+          </div>
+          <div class="mb-2">
+            <label for="editType" class="form-label">Card Type</label>
+            <input type="text" class="form-control w-50" id="editType" [value]="inspectCard.type" formControlName="cardType">
+          </div>
+          <div class="mb-2">
+            <label for="editAttribute" class="form-label">Attribute</label>
+            <input type="text" class="form-control w-50" id="editAttribute" [value]="inspectCard.attribute" formControlName="cardAttribute">
+          </div>
+          <div class="mb-2">
+            <label for="editRace" class="form-label">Race</label>
+            <input type="text" class="form-control w-50" id="editRace" [value]="inspectCard.race" formControlName="cardRace">
+          </div>
+          <div class="mb-2">
+            <label for="editSet" class="form-label">Set</label>
+            <input type="text" class="form-control w-50" id="editSet" [value]="inspectCard.cardCode" formControlName="cardSet">
+          </div>
+          <div class="mb-2">
+            <label for="editStock" class="form-label">Stock</label>
+            <input type="number" class="form-control w-50" id="editStock" [value]="inspectCard.stock" formControlName="cardStock">
+          </div>
+          <div class="mb-2">
+            <label for="editPrice" class="form-label">Price (DKK)</label>
+            <input type="number" class="form-control w-50" id="editPrice" [value]="inspectCard.price" formControlName="cardPrice">
+          </div>
+          <!-- Add more fields as needed -->
+          <button type="button" class="btn btn-dark">Save Changes</button>
+          <button type="button" class="btn btn-dark" (click)="deleteCard()">Delete Card</button>
+        </form>
       </div>
     </div>
   </div>

@@ -23,6 +23,9 @@ export class StoreComponent implements OnInit {
   type: string = "";
   Attribute: string = "";
   Race: string = "";
+  Price: number = 0
+  Stock: number = 0
+  Set: string = ""
   currentPage = 1;
   pageSize = 8; //items per page
   inspectCard: any = [];
@@ -31,6 +34,17 @@ export class StoreComponent implements OnInit {
   public Searchform = new FormGroup({
     Search: new FormControl('')
   })
+
+  EditForm: FormGroup = new FormGroup({
+    cardName: new FormControl(''),
+    cardPicturelink: new FormControl(''),
+    cardAttribute: new FormControl(''),
+    cardType: new FormControl(''),
+    cardRace: new FormControl(''),
+    cardSet: new FormControl(''),
+    cardStock: new FormControl(''),
+    cardPrice: new FormControl(''),
+  });
 
 
   ngOnInit(): void {
@@ -184,5 +198,10 @@ export class StoreComponent implements OnInit {
         this.navigateToPage();
       });
     })
+  }
+
+  deleteCard(){
+    this.Price = this.EditForm.get('cardPrice')!.value;
+    console.log(this.Price + "DKK");
   }
 }

@@ -95,5 +95,9 @@ export class YugiohService {
   updateCard(){
 
   }
+  
+  deleteCard(){
+
+  }
 
 }

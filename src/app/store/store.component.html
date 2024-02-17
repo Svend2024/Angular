@@ -20,6 +20,8 @@
       <div class="product-top">
         <img src="{{item.pictureLink}}">
         <div class="overlay">
+          <button *ngIf="isProductManager" type="button" class="btn btn-secondary" title="Inspect" data-bs-toggle="modal"
+            data-bs-target="#pmmodal" (click)="openInspectModal(item)"><i class="fa fa-edit"></i></button>
           <button type="button" class="btn btn-secondary" title="Inspect" data-bs-toggle="modal"
             data-bs-target="#inspectmodal" (click)="openInspectModal(item)"><i class="fa fa-eye"></i></button>
           <button type="button" class="btn btn-secondary" title="Add to cart" (click)="addToCart(item)"><i
@@ -190,49 +192,54 @@
     </div>
   </div>
 </div>
-
 <!--#endregion-->
 
-<div class="modal fade" id="pmModal" tabindex="-1" aria-labelledby="errormodal" aria-hidden="true">
+<!--#region edit modal-->
+<div class="modal fade" id="pmmodal" tabindex="-1" aria-labelledby="errormodal" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Card</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
       <div class="modal-body">
-        <h3>{{inspectCard.name}}</h3>
-        <div class="row justify-content">
-          <div class="col-md">
-            <div class="product-top">
-              <img src="{{inspectCard.pictureLink}}">
-            </div>
-            <div class="product-modal">
-              <h3>{{inspectCard.name}}</h3>
-              <h5>{{inspectCard.price}} DKK</h5>
-            </div>
-          </div>
-          <div class="col-md justify-content-end">
-            <div>
-              <b>Card Type:</b> <input type="text" value="{{inspectCard.type}}">
-              <br>
-              <b>Attribute:</b> <input type="text" value="{{inspectCard.attribute}}">
-              <br>
-              <b>Race:</b> <input type="text" value="{{inspectCard.race}}">
-              <br>
-              <b>Set:</b> (<input type="text" value="{{inspectCard.cardCode}}">)
-              <br>
-              <b>Price:</b> <input type="text" value="{{inspectCard.price}}">
-              <br>
-              <b>Stock:</b> <input type="text" value="{{inspectCard.stock}}">
-            </div>
-          </div>
-          <div class="justify-content-end">
-            <button type="button" class="btn btn-dark" data-bs-dismiss="modal">
-              Add to Cart
-            </button>
-            <button type="button" class="btn btn-dark" data-bs-dismiss="modal">
-              Close
-            </button>
-          </div>
+        <div class="mb-2">
+          <label for="editName" class="form-label">Card Name</label>
+          <input type="text" class="form-control w-50" id="editName" [value]="inspectCard.name">
         </div>
+        <div class="mb-2">
+          <label for="editPictureLink" class="form-label">Picture Link</label>
+          <input type="text" class="form-control w-50" id="editPictureLink" [value]="inspectCard.pictureLink">
+        </div>
+        <div class="mb-2">
+          <label for="editType" class="form-label">Card Type</label>
+          <input type="text" class="form-control w-50" id="editType" [value]="inspectCard.type">
+        </div>
+        <div class="mb-2">
+          <label for="editAttribute" class="form-label">Attribute</label>
+          <input type="text" class="form-control w-50" id="editAttribute" [value]="inspectCard.attribute">
+        </div>
+        <div class="mb-2">
+          <label for="editRace" class="form-label">Race</label>
+          <input type="text" class="form-control w-50" id="editRace" [value]="inspectCard.race">
+        </div>
+        <div class="mb-2">
+          <label for="editSet" class="form-label">Set</label>
+          <input type="text" class="form-control w-50" id="editSet" [value]="inspectCard.cardCode">
+        </div>
+        <div class="mb-2">
+          <label for="editStock" class="form-label">Stock</label>
+          <input type="number" class="form-control w-50" id="editStock" [value]="inspectCard.stock">
+        </div>
+        <div class="mb-2">
+          <label for="editPrice" class="form-label">Price (DKK)</label>
+          <input type="number" class="form-control w-50" id="editPrice" [value]="inspectCard.price">
+        </div>
+        <!-- Add more fields as needed -->
+        <button type="button" class="btn btn-dark">Save Changes</button>
+        <button type="button" class="btn btn-dark">Delete Card</button>
       </div>
     </div>
   </div>
 </div>
+<!--#endregion-->

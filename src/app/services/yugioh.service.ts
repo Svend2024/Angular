@@ -127,4 +127,27 @@ export class YugiohService {
     return this.http.delete(`${this.urlAll}/${Id}`, Authorization)
   }
 
+  createCard(name: any, cardPicturelink: any, Attribute: any, type: any, Race: any, Cardcode: any, setName: any, setCode: any, price: any, stock: any,token: any){
+    let Authorization = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer '+token
+      })
+    }
+    const body =
+    {
+      "name": name,
+      "type": type,
+      "attribute": Attribute,
+      "race": Race,
+      "cardCode": Cardcode,
+      "set": {
+        "setCode": setCode,
+        "setName": setName
+      },
+      "pictureLink": cardPicturelink,
+      "price": price,
+      "stock": stock
+    }
+    return this.http.post(`${this.urlAll}`, body, Authorization)
+  }
 }

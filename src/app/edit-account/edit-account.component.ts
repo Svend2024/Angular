@@ -56,29 +56,38 @@ export class EditAccountComponent implements OnInit {
           email: this.customerData.email
         });
       });
-
-      this.customerVerifyForm.setValidators([
-        Validators.required,
-        this.asyncZipCodeValidator,
-        this.asyncEmailValidator
-      ]);
+      this.customerVerifyForm = this.formBuilder.group(
+        {
+          fullname: ['', Validators.required],
+          zipCode: ['', Validators.required, this.asyncZipCodeValidator],
+          address: ['', Validators.required],
+          email: ['', Validators.email, this.asyncEmailValidator],
+          verifyEmail: ['', Validators.email, this.asyncEmailValidator]
+        }
+      );
     }
     if (this.role === "ProductManager") {
       this.http.get(`https://localhost:44361/api/ProductManagers/${this.auth.id}`).subscribe((res: any) => {
         this.productManagerData = res
+        console.log(this.productManagerData)
         this.productManagerVerifyForm.patchValue({
           fullname: this.productManagerData.fullname
         });
-      });
-      this.productManagerVerifyForm.setValidators([
-        Validators.required
-      ]);
+      })
+
+      this.productManagerVerifyForm = this.formBuilder.group(
+        {
+          fullname: ['', Validators.required]
+        }
+      );
     }
-    this.loginVerifyForm.setValidators([
-      Validators.required,
-      this.asyncLoginValidator,
-      this.asyncLoginValidator
-    ]);
+    this.loginVerifyForm = this.formBuilder.group(
+      {
+        username: ['', Validators.required, this.asyncLoginValidator],
+        password: ['', Validators.required, this.asyncLoginValidator],
+        verifyPassword: ['', Validators.required, this.asyncLoginValidator]
+      }
+    );
   }
 
   asyncLoginValidator(control: AbstractControl): Observable<ValidationErrors | null> {
@@ -131,8 +140,7 @@ export class EditAccountComponent implements OnInit {
   customer: Customer = {}
 
   productManager: any = {
-    fullname: '',
-    loginId: 0
+    fullname: ''
   }
 
   onUpdateCustomer() {
@@ -150,6 +158,7 @@ export class EditAccountComponent implements OnInit {
       this.customer.zipCode = this.customerVerifyForm.get('zipCode')!.value;
       this.customer.address = this.customerVerifyForm.get('address')!.value;
       this.customer.email = this.customerVerifyForm.get('email')!.value;
+      this.customer.loginId = this.customerData.loginId;
       this.http.put(`https://localhost:44361/api/Customers/${this.auth.id}`, this.customer).subscribe((res: any) => {
         alert("Kunde Opdateret!")
       })
@@ -165,6 +174,7 @@ export class EditAccountComponent implements OnInit {
     else {
       this.productManager.id = this.auth.id;
       this.productManager.fullname = this.productManagerVerifyForm.get('fullname')!.value;
+      this.productManager.loginId = this.productManagerData.loginId;
 
       this.http.put(`https://localhost:44361/api/ProductManagers/${this.auth.id}`, this.productManager).subscribe((res: any) => {
         alert("Produkt Manager Opdateret!")
@@ -182,7 +192,7 @@ export class EditAccountComponent implements OnInit {
       this.login.username = this.loginVerifyForm.get('username')!.value;
       this.login.password = this.loginVerifyForm.get('password')!.value;
       let id;
-      if (this.customerData) {
+      if (Object.keys(this.customerData).length !== 0) {
         id = this.customerData.loginId;
       }
       else {

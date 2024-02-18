@@ -1,5 +1,7 @@
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { LoginService } from './login.service';
+import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
+import { ITokenPayload } from '../Interface/itoken-payload';
 
 @Injectable({
   providedIn: 'root'
@@ -7,11 +9,12 @@ import { LoginService } from './login.service';
 export class AuthService {
 
   token: any;
-
+  jwtHelper = new JwtHelperService();
+  
   @Output() OnLoginSuccessful: EventEmitter<any> = new EventEmitter<any>();
   @Output() OnLogoutSuccessful: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(private api: LoginService) {
+  constructor(private api: LoginService) {    
     try {
       let token = sessionStorage.getItem('token');
 
@@ -24,19 +27,6 @@ export class AuthService {
     }
 
   }
-
-  // login(login: IUser): void {
-  //   try {
-  //     this.api.userLogin(login).subscribe(data => {
-  //       this.token = data.token;
-  //       sessionStorage.setItem('token', data.token);
-
-  //       this.OnLoginSuccessful.emit();
-  //     });
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
 
   login(login: any) {
     this.api.login(login).subscribe(data => {
@@ -56,29 +46,25 @@ export class AuthService {
     this.OnLogoutSuccessful.emit();
   }
 
-  // private get package(): ITokenPayload | null {
-  //   return this.jwt.decodeToken<ITokenPayload>(this.token);
-  // }
+  private get package(): ITokenPayload | null {
+    return this.jwtHelper.decodeToken<ITokenPayload>(this.token);
+  }
 
-  // get authenticated(): boolean {
-  //   if (!this.package) return false;
+  get authenticated(): boolean {
+    if (!this.package) return false;
 
-  //   let current: Date = new Date();
+    let current: Date = new Date();
 
-  //   let exp: Date | undefined = this.package?.exp ? new Date(this.package?.exp * 1000) : undefined;
-  //   let nbf: Date | undefined = this.package?.nbf ? new Date(this.package?.nbf * 1000) : undefined;
+    let exp: Date | undefined = this.package?.exp ? new Date(this.package?.exp * 1000) : undefined;
+    let nbf: Date | undefined = this.package?.nbf ? new Date(this.package?.nbf * 1000) : undefined;
 
-  //   if (exp && current > exp) return false;
-  //   if (nbf && current < nbf) return false;
+    if (exp && current > exp) return false;
+    if (nbf && current < nbf) return false;
 
-  //   return true;
-  // }
+    return true;
+  }
 
-  // get id(): number | null {
-  //   return this.package && this.package.id ? this.package.id : null;
-  // }
-
-  // get userName(): string | null {
-  //   return this.package && this.package.userName ? this.package.userName : null;
-  // }
+  get id(): number | null {
+    return this.package && this.package.id ? this.package.id : null;
+  }
 }

@@ -46,6 +46,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.isLoggedSubscription.unsubscribe(); // Sørg for at afmelde abonnementet når komponenten ødelægges
+    this.isProductManagerSubscription.unsubscribe(); 
   }
 
   logOut() {

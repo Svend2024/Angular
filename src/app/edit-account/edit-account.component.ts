@@ -55,31 +55,30 @@ export class EditAccountComponent implements OnInit {
           address: this.customerData.address,
           email: this.customerData.email
         });
-      })
-      this.customerVerifyForm = this.formBuilder.group(
-        {
-          fullname: ['', Validators.required],
-          zipCode: ['', Validators.required, this.asyncZipCodeValidator],
-          address: ['', Validators.required],
-          email: ['', Validators.email, this.asyncEmailValidator],
-          verifyEmail: ['', Validators.email, this.asyncEmailValidator]
-        }
-      );
+      });
+
+      this.customerVerifyForm.setValidators([
+        Validators.required,
+        this.asyncZipCodeValidator,
+        this.asyncEmailValidator
+      ]);
     }
     if (this.role === "ProductManager") {
-      this.productManagerVerifyForm = this.formBuilder.group(
-        {
-          fullname: ['', Validators.required]
-        }
-      );
+      this.http.get(`https://localhost:44361/api/ProductManagers/${this.auth.id}`).subscribe((res: any) => {
+        this.productManagerData = res
+        this.productManagerVerifyForm.patchValue({
+          fullname: this.productManagerData.fullname
+        });
+      });
+      this.productManagerVerifyForm.setValidators([
+        Validators.required
+      ]);
     }
-    this.loginVerifyForm = this.formBuilder.group(
-      {
-        username: ['', Validators.required, this.asyncLoginValidator],
-        password: ['', Validators.required, this.asyncLoginValidator],
-        verifyPassword: ['', Validators.required, this.asyncLoginValidator]
-      }
-    );
+    this.loginVerifyForm.setValidators([
+      Validators.required,
+      this.asyncLoginValidator,
+      this.asyncLoginValidator
+    ]);
   }
 
   asyncLoginValidator(control: AbstractControl): Observable<ValidationErrors | null> {
@@ -132,7 +131,8 @@ export class EditAccountComponent implements OnInit {
   customer: Customer = {}
 
   productManager: any = {
-    fullname: ''
+    fullname: '',
+    loginId: 0
   }
 
   onUpdateCustomer() {

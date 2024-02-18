@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
   }
   ngOnInit(): void {
     this.login.IsLogged.subscribe()
+    this.login.IsProductManager.subscribe()
   }
 
   public validator = {
@@ -37,6 +38,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.loginObj)
     this.authService.OnLoginSuccessful.subscribe(next => {
       this.login.ProfileBehavior.next(true);
+      if(sessionStorage.getItem('role') === "ProductManager") this.login.ProductManagerBehavior.next(true);
       this.router.navigate(['./store'])
     })
     

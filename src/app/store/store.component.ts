@@ -31,7 +31,7 @@ export class StoreComponent implements OnInit {
   currentPage = 1;
   pageSize = 8; //items per page
   inspectCard: any = [];
-  isProductManager: boolean = true;
+  isProductManager: boolean = false;
 
   public Searchform = new FormGroup({
     Search: new FormControl('')
@@ -216,6 +216,7 @@ export class StoreComponent implements OnInit {
     if(sessionStorage.getItem('token') != null){
       this.token = sessionStorage.getItem('token');
       this.Id = this.EditForm.get("cardID")!.value;
+      console.log(this.Id)
       this.cards.deleteCard(this.Id, this.token).subscribe((res)=>{
         console.log(res)
       });

@@ -14,7 +14,7 @@ import { AuthService } from './services/auth.service';
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'KameGame';
-
+  role: any = '';
   _login: LoginService;
   isLoggedSubscription: Subscription = new Subscription();
   isLoggedReady: boolean = true;
@@ -31,6 +31,7 @@ export class AppComponent implements OnInit, OnDestroy {
         // this._login.setLoggedReadyStatus(true);
       }
     });
+    this.role = sessionStorage.getItem('role')
   }
 
   toggleDropdown(): void {

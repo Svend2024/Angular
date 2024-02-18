@@ -17,6 +17,7 @@ export class AppComponent implements OnInit, OnDestroy {
   role: any = '';
   _login: LoginService;
   isLoggedSubscription: Subscription = new Subscription();
+  isProductManagerSubscription: Subscription = new Subscription();
   isLoggedReady: boolean = true;
   isDropdownOpen: boolean = false;
 
@@ -28,9 +29,14 @@ export class AppComponent implements OnInit, OnDestroy {
     this.isLoggedSubscription = this._login.IsLogged.subscribe((isLogged: boolean) => {      
       if(!isLogged && sessionStorage.getItem('token')) {
         this._login.ProfileBehavior.next(true);
-        // this._login.setLoggedReadyStatus(true);
       }
+      
     });
+    this.isProductManagerSubscription = this._login.IsProductManager.subscribe((isProductManager: boolean) =>{
+      if(!isProductManager && sessionStorage.getItem('role') === 'ProductManager'){
+        this._login.ProductManagerBehavior.next(true)
+      }
+    })
     this.role = sessionStorage.getItem('role')
   }
 

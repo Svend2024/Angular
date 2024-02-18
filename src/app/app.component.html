@@ -13,7 +13,7 @@
         <li class="nav-item">
           <a class="nav-link" href="/deck">Dæksbygger</a>
         </li>
-        <li class="nav-item" *ngIf="this.role === 'ProductManager'">
+        <li class="nav-item" *ngIf="(this._login.IsProductManager | async) == true">
           <a class="nav-link" href="/create-card">Opret kort</a>
         </li>
       </ul>

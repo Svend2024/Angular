@@ -15,7 +15,7 @@ export const Customer: CanActivateFn = (route, state) => {
   const isCustomer= sessionStorage.getItem('role') === 'Customer';
   const isProductManager= sessionStorage.getItem('role') === 'ProductManager';
   
-  if (!isCustomer || !isProductManager) {
+  if (!isCustomer && !isProductManager) {
     let router = new Router 
     router.navigate(['/store']);
     return false;

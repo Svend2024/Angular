@@ -3,9 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { Observable, of } from 'rxjs';
-import { Login } from '../login/login.component';
 import { Customer } from '../Interface/customer';
 import { AuthService } from '../services/auth.service';
+import { Login } from '../Interface/login';
 
 @Component({
   selector: 'app-edit-account',
@@ -19,7 +19,10 @@ export class EditAccountComponent implements OnInit {
 
   constructor(private http: HttpClient, private formBuilder: FormBuilder, private auth: AuthService) { }
 
-  role: string |null = "" ;
+  role: string | null = "";
+
+  customerData: Customer = {}
+  productManagerData: any = {}
 
   customerVerifyForm: FormGroup = new FormGroup({
     fullname: new FormControl(''),
@@ -41,10 +44,18 @@ export class EditAccountComponent implements OnInit {
   submitted = false;
   loginSubmitted = false;
 
-  ngOnInit(): void {    
-
+  ngOnInit(): void {
     this.role = sessionStorage.getItem('role')
     if (this.role === "Customer") {
+      this.http.get(`https://localhost:44361/api/Customers/${this.auth.id}`).subscribe((res: any) => {
+        this.customerData = res
+        this.customerVerifyForm.patchValue({
+          fullname: this.customerData.fullname,
+          zipCode: this.customerData.zipCode,
+          address: this.customerData.address,
+          email: this.customerData.email
+        });
+      })
       this.customerVerifyForm = this.formBuilder.group(
         {
           fullname: ['', Validators.required],
@@ -58,12 +69,12 @@ export class EditAccountComponent implements OnInit {
     if (this.role === "ProductManager") {
       this.productManagerVerifyForm = this.formBuilder.group(
         {
-          fullname: ['', Validators.required]          
+          fullname: ['', Validators.required]
         }
       );
     }
     this.loginVerifyForm = this.formBuilder.group(
-      {        
+      {
         username: ['', Validators.required, this.asyncLoginValidator],
         password: ['', Validators.required, this.asyncLoginValidator],
         verifyPassword: ['', Validators.required, this.asyncLoginValidator]
@@ -96,83 +107,49 @@ export class EditAccountComponent implements OnInit {
   }
 
   get f(): { [key: string]: AbstractControl } {
-    if(this.role === "Customer") {
+    if (this.role === "Customer") {
       return this.customerVerifyForm.controls;
     }
     else {
       return this.productManagerVerifyForm.controls;
-    }    
+    }
+  }
+
+  get l(): { [key: string]: AbstractControl } {
+    return this.loginVerifyForm.controls;
   }
 
   verifyEmailInput = '';
   verifyPasswordInput = '';
 
   login: Login = {
+    id: 0,
     username: '',
     password: ''
   }
 
-  customer: Customer = {
-    id: 0,
-    fullname: '',
-    zipCode: '',
-    address: '',
-    email: ''
-  }
+  // Customer der kan bruge til flere kald
+  customer: Customer = {}
 
   productManager: any = {
     fullname: ''
   }
-  
-  // onCreateCustomer() {
-  //   this.submitted = true;
-  //   if (this.verifyForm.invalid) {
-  //     alert("Udfyld manglende felter i formularen");    
-  //     return;
-  //   }
-  //   if (this.verifyForm.get('verifyEmail')!.value != this.verifyForm.get('email')!.value) {
-  //     alert("E-mail missmatch");
-  //   } 
-  //   else if (this.verifyForm.get('verifyPassword')!.value != this.verifyForm.get('password')!.value) {
-  //     alert("Password missmatch");
-  //   }
-  //   else {
-  //     this.customer.fullname = this.verifyForm.get('fullname')!.value;
-  //     this.customer.zipCode = this.verifyForm.get('zipCode')!.value;
-  //     this.customer.address = this.verifyForm.get('address')!.value;
-  //     this.customer.email = this.verifyForm.get('email')!.value;
-  //     this.login.username = this.verifyForm.get('username')!.value;
-  //     this.login.password = this.verifyForm.get('password')!.value;
-
-  //     this.http.post('https://localhost:44361/api/Customers', this.customer).subscribe((res: any) => {
-  //       if (res.id != null) {
-  //         this.router.navigate(['./login']);
-  //         alert("Customer successfully created!")
-  //       }
-  //       else {
-  //         alert(res)
-  //       }
-  //     })
-  //   }
-  // }
 
   onUpdateCustomer() {
     this.submitted = true;
     if (this.customerVerifyForm.invalid) {
-      alert("Udfyld manglende felter i formularen");    
+      alert("Udfyld manglende felter i formularen");
       return;
     }
     if (this.customerVerifyForm.get('verifyEmail')!.value != this.customerVerifyForm.get('email')!.value) {
       alert("E-mail missmatch");
-    } 
+    }
     else {
       this.customer.id = this.auth.id;
       this.customer.fullname = this.customerVerifyForm.get('fullname')!.value;
       this.customer.zipCode = this.customerVerifyForm.get('zipCode')!.value;
       this.customer.address = this.customerVerifyForm.get('address')!.value;
       this.customer.email = this.customerVerifyForm.get('email')!.value;
-
-      // Skal bruge token id her
       this.http.put(`https://localhost:44361/api/Customers/${this.auth.id}`, this.customer).subscribe((res: any) => {
         alert("Kunde Opdateret!")
       })
@@ -182,14 +159,13 @@ export class EditAccountComponent implements OnInit {
   onUpdateProductManager() {
     this.submitted = true;
     if (this.productManagerVerifyForm.invalid) {
-      alert("Udfyld manglende felt i formularen");    
+      alert("Udfyld manglende felt i formularen");
       return;
     }
     else {
       this.productManager.id = this.auth.id;
       this.productManager.fullname = this.productManagerVerifyForm.get('fullname')!.value;
 
-      // Skal bruge token id her
       this.http.put(`https://localhost:44361/api/ProductManagers/${this.auth.id}`, this.productManager).subscribe((res: any) => {
         alert("Produkt Manager Opdateret!")
       })
@@ -199,16 +175,23 @@ export class EditAccountComponent implements OnInit {
   onUpdateLogin() {
     this.loginSubmitted = true;
     if (this.loginVerifyForm.invalid) {
-      alert("Udfyld manglende felt i formularen");    
+      alert("Udfyld manglende felter i formularen");
       return;
     }
     else {
-      this.productManager.id = this.auth.id;
-      this.productManager.fullname = this.productManagerVerifyForm.get('fullname')!.value;
+      this.login.username = this.loginVerifyForm.get('username')!.value;
+      this.login.password = this.loginVerifyForm.get('password')!.value;
+      let id;
+      if (this.customerData) {
+        id = this.customerData.loginId;
+      }
+      else {
+        id = this.productManagerData.loginId;
+      }
+      this.login.id = id;
 
-      // Skal bruge token id her
-      this.http.put(`https://localhost:44361/api/Logins/${this.auth.id}`, this.productManager).subscribe((res: any) => {
-        alert("Produkt Manager Opdateret!")
+      this.http.put(`https://localhost:44361/api/Logins/${id}`, this.login).subscribe((res: any) => {
+        alert("Login Opdateret!")
       })
     }
   }

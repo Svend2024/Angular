@@ -102,7 +102,7 @@
                 <div class="pb-2 form-group">
                     Brugernavn
                     <input type="text" class="form-control form-control-sm"
-                        [ngClass]="{'is-invalid': loginSubmitted && f['username'].errors }" formControlName="username">
+                        [ngClass]="{'is-invalid': loginSubmitted && l['username'].errors }" formControlName="username">
                     @if (submitted && f['username'].errors) {
                     <div class="invalid-feedback">
                         @if (f['username'].errors['required']) {
@@ -120,7 +120,7 @@
                 <div class="pb-2 form-group">
                     Adgangskode
                     <input type="password" class="form-control form-control-sm"
-                        [ngClass]="{'is-invalid': loginSubmitted && f['password'].errors }" formControlName="password">
+                        [ngClass]="{'is-invalid': loginSubmitted && l['password'].errors }" formControlName="password">
                     @if (submitted && f['password'].errors) {
                     <div class="invalid-feedback">
                         @if (f['password'].errors['required']) {
@@ -138,7 +138,7 @@
                 <div class="pb-2 form-group">
                     Bekræft Adgangskode
                     <input type="password" class="form-control form-control-sm"
-                        [ngClass]="{'is-invalid': loginSubmitted && f['verifyPassword'].errors }"
+                        [ngClass]="{'is-invalid': loginSubmitted && l['verifyPassword'].errors }"
                         formControlName="verifyPassword">
                     @if (submitted && f['verifyPassword'].errors) {
                     <div class="invalid-feedback">

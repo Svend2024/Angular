@@ -103,15 +103,15 @@
                     Brugernavn
                     <input type="text" class="form-control form-control-sm"
                         [ngClass]="{'is-invalid': loginSubmitted && l['username'].errors }" formControlName="username">
-                    @if (submitted && f['username'].errors) {
+                    @if (loginSubmitted && l['username'].errors) {
                     <div class="invalid-feedback">
-                        @if (f['username'].errors['required']) {
+                        @if (l['username'].errors['required']) {
                         <div>Udfyld Brugernavn</div>
                         }
-                        @if (f['username'].errors['minlength']) {
+                        @if (l['username'].errors['minlength']) {
                         <div>Brugernavn skal minimum være 6 tegn langt</div>
                         }
-                        @if (f['username'].errors['maxlength']) {
+                        @if (l['username'].errors['maxlength']) {
                         <div>Brugernavn kan maks være 32 tegn langt</div>
                         }
                     </div>
@@ -121,15 +121,15 @@
                     Adgangskode
                     <input type="password" class="form-control form-control-sm"
                         [ngClass]="{'is-invalid': loginSubmitted && l['password'].errors }" formControlName="password">
-                    @if (submitted && f['password'].errors) {
+                    @if (loginSubmitted && l['password'].errors) {
                     <div class="invalid-feedback">
-                        @if (f['password'].errors['required']) {
+                        @if (l['password'].errors['required']) {
                         <div>Udfyld Adgangskode</div>
                         }
-                        @if (f['password'].errors['minlength']) {
+                        @if (l['password'].errors['minlength']) {
                         <div>Adgangskode skal minimum være 6 tegn langt</div>
                         }
-                        @if (f['password'].errors['maxlength']) {
+                        @if (l['password'].errors['maxlength']) {
                         <div>Adgangskode kan maks være 32 tegn langt</div>
                         }
                     </div>
@@ -140,15 +140,15 @@
                     <input type="password" class="form-control form-control-sm"
                         [ngClass]="{'is-invalid': loginSubmitted && l['verifyPassword'].errors }"
                         formControlName="verifyPassword">
-                    @if (submitted && f['verifyPassword'].errors) {
+                    @if (loginSubmitted && l['verifyPassword'].errors) {
                     <div class="invalid-feedback">
-                        @if (f['verifyPassword'].errors['required']) {
+                        @if (l['verifyPassword'].errors['required']) {
                         <div>Udfyld Adgangskode</div>
                         }
-                        @if (f['verifyPassword'].errors['minlength']) {
+                        @if (l['verifyPassword'].errors['minlength']) {
                         <div>Adgangskode skal minimum være 6 tegn langt</div>
                         }
-                        @if (f['verifyPassword'].errors['maxlength']) {
+                        @if (l['verifyPassword'].errors['maxlength']) {
                         <div>Adgangskode kan maks være 32 tegn langt</div>
                         }
                     </div>

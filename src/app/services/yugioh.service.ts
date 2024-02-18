@@ -29,7 +29,6 @@ export class YugiohService {
     let emptyType : string = "";
     let emptyAttribute : string = "";
     let emptyRace : string = "";
-    let emptyEffect : string = "";
     if(type != "" && type !="Select Card Type"){
       emptyType = `&type=${type}`;
     }
@@ -55,7 +54,7 @@ export class YugiohService {
     {
       page = 1
     }
-    let filterUrl : string = `${this.urlAll}/FilterSearch?searchTerm=${cardName}${emptyType}${emptyAttribute}${emptyRace}${emptyEffect}&page=${page}&pageSize=${pageSize}`
+    let filterUrl : string = `${this.urlAll}/FilterSearch?searchTerm=${cardName}${emptyType}${emptyAttribute}${emptyRace}&page=${page}&pageSize=${pageSize}`
     return this.http.get(`${filterUrl}`);
   }
 
@@ -128,17 +127,41 @@ export class YugiohService {
   }
 
   createCard(name: any, cardPicturelink: any, Attribute: any, type: any, Race: any, Cardcode: any, setName: any, setCode: any, price: any, stock: any,token: any){
+    let emptyType : string = "";
+    let emptyAttribute : string = "";
+    let emptyRace : string = "";
     let Authorization = {
       headers: new HttpHeaders({
         'Authorization': 'Bearer '+token
       })
     }
+    if(type != "" && type !="Select Card Type"){
+      emptyType = type;
+    }
+    if(type == "Select Card Type")
+    {
+      emptyType="";
+    }
+    if(Attribute != "" && Attribute !="Select Attributee"){
+      emptyAttribute = Attribute;
+    }
+    if(Attribute == "Select Attributee")
+    {
+      emptyAttribute="";
+    }
+    if(Race != "" && Race !="Select Race"){
+      emptyRace = Race;
+    }
+    if(Race == "Select Race")
+    {
+      emptyRace="";
+    }
     const body =
     {
       "name": name,
-      "type": type,
-      "attribute": Attribute,
-      "race": Race,
+      "type": emptyType,
+      "attribute": emptyAttribute,
+      "race": emptyRace,
       "cardCode": Cardcode,
       "set": {
         "setCode": setCode,

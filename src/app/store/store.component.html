@@ -237,7 +237,7 @@
             <input type="number" class="form-control w-50" id="editPrice" [value]="inspectCard.price" formControlName="cardPrice">
           </div>
           <!-- Add more fields as needed -->
-          <button type="button" class="btn btn-dark">Save Changes</button>
+          <button type="button" class="btn btn-dark" (click)="updateCard()">Save Changes</button>
           <button type="button" class="btn btn-dark" (click)="deleteCard()">Delete Card</button>
         </form>
       </div>

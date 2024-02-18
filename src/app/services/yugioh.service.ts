@@ -23,7 +23,8 @@ export class YugiohService {
     return this.http.get(url);
   }
 
-  searchCard(cardSearch : any, type: any, Attribute: any, Race: any, page: number, pageSize: number){
+  searchCard(cardSearch : any, type: any, Attribute: any, Race: any, page: number, pageSize: number)
+  {
     let cardName = cardSearch;
     let emptyType : string = "";
     let emptyAttribute : string = "";
@@ -58,7 +59,8 @@ export class YugiohService {
     return this.http.get(`${filterUrl}`);
   }
 
-  filteredCards(type: any, Attribute: any, Race: any, page: number, pageSize: number){
+  filteredCards(type: any, Attribute: any, Race: any, page: number, pageSize: number)
+  {
     let emptyType : string = "";
     let emptyAttribute : string = "";
     let emptyRace : string = "";
@@ -88,16 +90,41 @@ export class YugiohService {
     return this.http.get(`${filterUrl}`);
   }
 
-  addCard(){
+  addCard()
+  {
 
   }
 
-  updateCard(){
-
+  updateCard(Id: number, name: any, cardPicturelink: any, Attribute: any, type: any, Race: any, stock: any, Set: any, price: any, token: any)
+  {
+    let Authorization = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer '+token
+      })
+    }
+    const body =
+    {
+      "id": Id,
+      "name": name,
+      "type": type,
+      "attribute": Attribute,
+      "race": Race,
+      "cardCode": Set,
+      "pictureLink": cardPicturelink,
+      "price": price,
+      "stock": stock
+    }
+    return this.http.put(`${this.urlAll}`, body, Authorization)
   }
   
-  deleteCard(){
-
+  deleteCard(Id : number, token: any)
+  {
+    let Authorization = {
+      headers: new HttpHeaders({
+        'Authorization': 'Bearer '+token
+      })
+    }
+    return this.http.delete(`${this.urlAll}/${Id}`, Authorization)
   }
 
 }

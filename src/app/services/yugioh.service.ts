@@ -98,6 +98,7 @@ export class YugiohService {
     }
     const body =
     {
+      "id": Id,
       "name": name,
       "type": type,
       "attribute": Attribute,

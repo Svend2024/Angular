@@ -234,7 +234,8 @@ export class StoreComponent implements OnInit {
       this.type = this.EditForm.get("cardType")!.value;
       this.Race = this.EditForm.get("cardRace")!.value;
       this.Stock = this.EditForm.get("cardStock")!.value;
-      this.Price = this.EditForm.get("cardPrice")!.value;
+      this.Price = this.EditForm.get("cardPrice")!.value;3
+      console.log(this.Id)
       this.cards.updateCard(this.Id, name, pictureLink, this.Attribute, this.type, this.Race, this.Stock, this.Set, this.Price, this.token).subscribe((res)=>{
         console.log(res)
       });

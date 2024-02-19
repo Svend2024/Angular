@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { Observable, of } from 'rxjs';
@@ -43,6 +43,12 @@ export class EditAccountComponent implements OnInit {
   });
   submitted = false;
   loginSubmitted = false;
+
+  Authorization = {
+    headers: new HttpHeaders({
+      'Authorization': 'Bearer '+ sessionStorage.getItem('token')
+    })
+  }
 
   ngOnInit(): void {
     this.role = sessionStorage.getItem('role')
@@ -152,14 +158,15 @@ export class EditAccountComponent implements OnInit {
     if (this.customerVerifyForm.get('verifyEmail')!.value != this.customerVerifyForm.get('email')!.value) {
       alert("E-mail missmatch");
     }
-    else {
+    else {      
       this.customer.id = this.auth.id;
       this.customer.fullname = this.customerVerifyForm.get('fullname')!.value;
       this.customer.zipCode = this.customerVerifyForm.get('zipCode')!.value;
       this.customer.address = this.customerVerifyForm.get('address')!.value;
       this.customer.email = this.customerVerifyForm.get('email')!.value;
       this.customer.loginId = this.customerData.loginId;
-      this.http.put(`https://localhost:44361/api/Customers/${this.auth.id}`, this.customer).subscribe((res: any) => {
+      this.http.put(`https://localhost:44361/api/Customers/${this.auth.id}`, this.customer, this.Authorization).subscribe((res: any) => {
+        console.log(res)
         alert("Kunde Opdateret!")
       })
     }
@@ -172,11 +179,13 @@ export class EditAccountComponent implements OnInit {
       return;
     }
     else {
+      
       this.productManager.id = this.auth.id;
       this.productManager.fullname = this.productManagerVerifyForm.get('fullname')!.value;
       this.productManager.loginId = this.productManagerData.loginId;
 
-      this.http.put(`https://localhost:44361/api/ProductManagers/${this.auth.id}`, this.productManager).subscribe((res: any) => {
+      this.http.put(`https://localhost:44361/api/ProductManagers/${this.auth.id}`, this.productManager, this.Authorization).subscribe((res: any) => {
+        console.log(res)
         alert("Produkt Manager Opdateret!")
       })
     }
@@ -200,7 +209,8 @@ export class EditAccountComponent implements OnInit {
       }
       this.login.id = id;
 
-      this.http.put(`https://localhost:44361/api/Logins/${id}`, this.login).subscribe((res: any) => {
+      this.http.put(`https://localhost:44361/api/Logins/${id}`, this.login, this.Authorization).subscribe((res: any) => {
+        console.log(res)
         alert("Login Opdateret!")
       })
     }

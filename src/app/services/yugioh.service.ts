@@ -89,11 +89,6 @@ export class YugiohService {
     return this.http.get(`${filterUrl}`);
   }
 
-  addCard()
-  {
-
-  }
-
   updateCard(Id: number, name: any, cardPicturelink: any, Attribute: any, type: any, Race: any, stock: any, Set: any, price: any, token: any)
   {
     let Authorization = {
@@ -113,7 +108,7 @@ export class YugiohService {
       "price": price,
       "stock": stock
     }
-    return this.http.put(`${this.urlAll}`, body, Authorization)
+    return this.http.put(`${this.urlAll}/${Id}`, body, Authorization)
   }
   
   deleteCard(Id : number, token: any)

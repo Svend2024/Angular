@@ -44,8 +44,8 @@ export class CreateCardComponent {
   createCard(){
 
     this.card.cardname = this.createForm.get("cardName")!.value;
-    this.card.cardpictureLink = this.createForm.get("cardPicturelink")!.value;
-    this.card.cardcode = this.createForm.get("cardNumber")!.value;
+    this.card.cardpictureLink = this.createForm.get("cardPictureLink")!.value;
+    this.card.cardcode = this.createForm.get("cardCode")!.value;
     this.card.cardset!.cardsetCode = this.createForm.get("cardSetNumber")!.value;
     this.card.cardset!.cardsetName = this.createForm.get("cardSetName")!.value;
     this.card.cardstock = this.createForm.get("cardStock")!.value;

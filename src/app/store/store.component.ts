@@ -27,7 +27,12 @@ export class StoreComponent implements OnInit {
   Price: number = 0
   Stock: number = 0
   Id: number = 0
-  Set: string = ""
+  cardCode: string = ""
+  setId: number = 0
+  Set = {
+    setCode: "",
+    setName: ""
+  }
   currentPage = 1;
   pageSize = 8; //items per page
   inspectCard: any = [];
@@ -44,7 +49,10 @@ export class StoreComponent implements OnInit {
     cardAttribute: new FormControl(''),
     cardType: new FormControl(''),
     cardRace: new FormControl(''),
-    cardSet: new FormControl(''),
+    cardcode: new FormControl(''),
+    cardSetId: new FormControl(''),
+    cardSetCode: new FormControl(''),
+    cardSetName: new FormControl(''),
     cardStock: new FormControl(''),
     cardPrice: new FormControl(''),
   });
@@ -102,9 +110,12 @@ export class StoreComponent implements OnInit {
     this.EditForm.controls["cardAttribute"].setValue(this.inspectCard.attribute)
     this.EditForm.controls["cardType"].setValue(this.inspectCard.type)
     this.EditForm.controls["cardRace"].setValue(this.inspectCard.race)
-    this.EditForm.controls["cardSet"].setValue(this.inspectCard.cardCode)
+    this.EditForm.controls["cardcode"].setValue(this.inspectCard.cardCode)
+    this.EditForm.controls["cardSetCode"].setValue(this.inspectCard.set!.setCode)
+    this.EditForm.controls["cardSetName"].setValue(this.inspectCard.set!.setName)
     this.EditForm.controls["cardStock"].setValue(this.inspectCard.stock)
     this.EditForm.controls["cardPrice"].setValue(this.inspectCard.price)
+    this.setId = this.inspectCard.set.id
   }
 
   onChangetype(type: any) {
@@ -225,18 +236,25 @@ export class StoreComponent implements OnInit {
 
   updateCard(){
     if(sessionStorage.getItem('token') != null){
+      
       this.token = sessionStorage.getItem('token');
       this.Id = this.EditForm.get("cardID")!.value;
+
       let name = this.EditForm.get("cardName")!.value;
       let pictureLink = this.EditForm.get("cardPicturelink")!.value;
+
       this.Attribute = this.EditForm.get("cardAttribute")!.value;
-      this.Set = this.EditForm.get("cardSet")!.value;
+      this.cardCode = this.EditForm.get("cardcode")!.value;
       this.type = this.EditForm.get("cardType")!.value;
       this.Race = this.EditForm.get("cardRace")!.value;
       this.Stock = this.EditForm.get("cardStock")!.value;
-      this.Price = this.EditForm.get("cardPrice")!.value;3
+      this.Price = this.EditForm.get("cardPrice")!.value;
+      this.Set.setCode = this.EditForm.get("")!.value;
+      this.Set.setName = this.EditForm.get("")!.value;
+
       console.log(this.Id)
-      this.cards.updateCard(this.Id, name, pictureLink, this.Attribute, this.type, this.Race, this.Stock, this.Set, this.Price, this.token).subscribe((res)=>{
+      this.cards.updateCard(this.Id, name, pictureLink, this.Attribute, this.type, this.Race, this.Stock, 
+        this.cardCode, this.Price,this.setId,this.Set.setCode,this.Set.setName, this.token).subscribe((res)=>{
         console.log(res)
       });
     }

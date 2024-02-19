@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, race } from 'rxjs';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -89,7 +89,7 @@ export class YugiohService {
     return this.http.get(`${filterUrl}`);
   }
 
-  updateCard(Id: number, name: any, cardPicturelink: any, Attribute: any, type: any, Race: any, stock: any, Set: any, price: any, token: any)
+  updateCard(Id: number, name: any, cardPicturelink: any, Attribute: any, type: any, Race: any, stock: any, cardCode: any, price: any, setId: any, setCode: any, setName:any, token: any)
   {
     let Authorization = {
       headers: new HttpHeaders({
@@ -98,12 +98,16 @@ export class YugiohService {
     }
     const body =
     {
-      "id": Id,
       "name": name,
       "type": type,
       "attribute": Attribute,
       "race": Race,
-      "cardCode": Set,
+      "cardCode": cardCode,
+      "setId": setId,
+      "set": {
+        "setCode": setCode,
+        "setName": setName
+      },
       "pictureLink": cardPicturelink,
       "price": price,
       "stock": stock

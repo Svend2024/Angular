@@ -89,7 +89,8 @@ export class YugiohService {
     return this.http.get(`${filterUrl}`);
   }
 
-  updateCard(Id: number, name: any, cardPicturelink: any, Attribute: any, type: any, Race: any, stock: any, cardCode: any, price: any, setId: any, setCode: any, setName:any, token: any)
+  updateCard(Id: number, name: any, cardPicturelink: any, Attribute: any, type: any, Race: any, stock: any, 
+    cardCode: any, price: any, setId: any, setCode: any, setName:any, token: any)
   {
     let Authorization = {
       headers: new HttpHeaders({
@@ -126,7 +127,8 @@ export class YugiohService {
     return this.http.delete(`${this.urlAll}/${Id}`, Authorization)
   }
 
-  createCard(name: any, cardPicturelink: any, Attribute: any, type: any, Race: any, Cardcode: any, setName: any, setCode: any, price: any, stock: any,token: any){
+  createCard(name: any, cardPicturelink: any, Attribute: any, type: any, Race: any, 
+    Cardcode: any, setName: any, setCode: any, price: any, stock: any,token: any){
     let emptyType : string = "";
     let emptyAttribute : string = "";
     let emptyRace : string = "";

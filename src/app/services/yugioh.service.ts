@@ -90,7 +90,7 @@ export class YugiohService {
   }
 
   updateCard(Id: number, name: any, cardPicturelink: any, Attribute: any, type: any, Race: any, stock: any, 
-    cardCode: any, price: any, setId: any, setCode: any, setName:any, token: any)
+    cardCode: any, price: any, setId: any, token: any)
   {
     let Authorization = {
       headers: new HttpHeaders({
@@ -106,10 +106,6 @@ export class YugiohService {
       "race": Race,
       "cardCode": cardCode,
       "setId": setId,
-      "set": {
-        "setCode": setCode,
-        "setName": setName
-      },
       "pictureLink": cardPicturelink,
       "price": price,
       "stock": stock
@@ -117,14 +113,14 @@ export class YugiohService {
     return this.http.put(`${this.urlAll}/${Id}`, body, Authorization)
   }
   
-  deleteCard(Id : number, token: any)
+  deleteCard(item : any, token: any)
   {
     let Authorization = {
       headers: new HttpHeaders({
         'Authorization': 'Bearer '+token
       })
     }
-    return this.http.delete(`${this.urlAll}/${Id}`, Authorization)
+    return this.http.delete(`${this.urlAll}/${item.Id}`, { ...Authorization, body: item })
   }
 
   createCard(name: any, cardPicturelink: any, Attribute: any, type: any, Race: any, 

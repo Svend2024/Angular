@@ -49,10 +49,8 @@ export class StoreComponent implements OnInit {
     cardAttribute: new FormControl(''),
     cardType: new FormControl(''),
     cardRace: new FormControl(''),
-    cardcode: new FormControl(''),
+    cardCode: new FormControl(''),
     cardSetId: new FormControl(''),
-    cardSetCode: new FormControl(''),
-    cardSetName: new FormControl(''),
     cardStock: new FormControl(''),
     cardPrice: new FormControl(''),
   });
@@ -110,12 +108,10 @@ export class StoreComponent implements OnInit {
     this.EditForm.controls["cardAttribute"].setValue(this.inspectCard.attribute)
     this.EditForm.controls["cardType"].setValue(this.inspectCard.type)
     this.EditForm.controls["cardRace"].setValue(this.inspectCard.race)
-    this.EditForm.controls["cardcode"].setValue(this.inspectCard.cardCode)
-    this.EditForm.controls["cardSetCode"].setValue(this.inspectCard.set!.setCode)
-    this.EditForm.controls["cardSetName"].setValue(this.inspectCard.set!.setName)
+    this.EditForm.controls["cardCode"].setValue(this.inspectCard.cardCode)
     this.EditForm.controls["cardStock"].setValue(this.inspectCard.stock)
     this.EditForm.controls["cardPrice"].setValue(this.inspectCard.price)
-    this.setId = this.inspectCard.set.id
+    this.setId = this.inspectCard.setId
   }
 
   onChangetype(type: any) {
@@ -226,9 +222,7 @@ export class StoreComponent implements OnInit {
   deleteCard(){
     if(sessionStorage.getItem('token') != null){
       this.token = sessionStorage.getItem('token');
-      this.Id = this.EditForm.get("cardID")!.value;
-      console.log(this.Id)
-      this.cards.deleteCard(this.Id, this.token).subscribe((res)=>{
+      this.cards.deleteCard(this.inspectCard, this.token).subscribe((res)=>{
         console.log(res)
       });
     }
@@ -244,17 +238,15 @@ export class StoreComponent implements OnInit {
       let pictureLink = this.EditForm.get("cardPicturelink")!.value;
 
       this.Attribute = this.EditForm.get("cardAttribute")!.value;
-      this.cardCode = this.EditForm.get("cardcode")!.value;
+      this.cardCode = this.EditForm.get("cardCode")!.value;
       this.type = this.EditForm.get("cardType")!.value;
       this.Race = this.EditForm.get("cardRace")!.value;
       this.Stock = this.EditForm.get("cardStock")!.value;
       this.Price = this.EditForm.get("cardPrice")!.value;
-      this.Set.setCode = this.EditForm.get("")!.value;
-      this.Set.setName = this.EditForm.get("")!.value;
 
       console.log(this.Id)
       this.cards.updateCard(this.Id, name, pictureLink, this.Attribute, this.type, this.Race, this.Stock, 
-        this.cardCode, this.Price,this.setId,this.Set.setCode,this.Set.setName, this.token).subscribe((res)=>{
+        this.cardCode, this.Price,this.setId, this.token).subscribe((res)=>{
         console.log(res)
       });
     }
